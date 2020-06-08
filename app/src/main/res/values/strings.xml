@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="glemt_password">Glemt password?</string>
+    <string name="photo">savemi.png</string>
+    <string name="email">Email</string>
+    <string name="Log_In_Knap">Log Ind</string>
+    <string name="password">Password</string>
+    <string name="Skan">Skan</string>
+</resources>
