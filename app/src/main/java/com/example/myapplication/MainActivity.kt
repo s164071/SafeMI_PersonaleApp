@@ -1,21 +1,34 @@
 package com.example.myapplication
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.google.firebase.auth.FirebaseAuth
+
 
 class MainActivity : AppCompatActivity() {
+  //  lateinit var fraglogin: LogInd
+    private lateinit var auth: FirebaseAuth
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        LogIndKnap.setOnClickListener {
-            val intent = Intent(this, BeaconOversigt::class.java)
-            this.finish()
-            startActivity(intent)
-            overridePendingTransition(0, 0);
-        }
-    }
+        auth = FirebaseAuth.getInstance()
+
+       val fraglogin = LogInd()
+        val manager = supportFragmentManager
+        val fragmentTransaction = manager.beginTransaction()
+        fragmentTransaction.add(R.id.fragtop, fraglogin)
+        fragmentTransaction.commit()
 }
+
+
+
+}
+
+
+
+
 

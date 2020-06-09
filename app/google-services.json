@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "403851442311",
+    "firebase_url": "https://safemi-e30f7.firebaseio.com",
+    "project_id": "safemi-e30f7",
+    "storage_bucket": "safemi-e30f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:403851442311:android:b561627e17ac65bbaaa022",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "403851442311-07lkh777je3sqj2bhcp0qfvq551o19i0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIHcA72fHX2TnlrU0bsGzFC4dpDMWMcqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "403851442311-07lkh777je3sqj2bhcp0qfvq551o19i0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

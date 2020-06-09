@@ -8,33 +8,15 @@
     tools:context=".MainActivity">
 
 
-    <ImageButton
-        android:id="@+id/button4"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="183dp"
-        android:layout_height="110dp"
-        android:layout_marginEnd="181dp"
-        android:layout_marginRight="181dp"
-        android:src="@drawable/hjem"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/Recent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <ImageButton
-        android:id="@+id/Recent"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="179dp"
-        android:layout_height="110dp"
-        android:background="@color/temafarve"
-        android:src="@drawable/ur"
-        android:tint="@null"
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.example.myapplication.nearby"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- <EditText
         android:id="@+id/editTextTextPersonName2"
@@ -55,17 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />-->
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="250dp"
-        android:layout_height="259dp"
-        android:layout_marginBottom="36dp"
-        app:layout_constraintBottom_toTopOf="@+id/scan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.614"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/bluetooth" />
-
+    <!--
     <Button
         android:id="@+id/scan"
         android:layout_width="171dp"
@@ -95,7 +67,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2"
-        app:layout_constraintVertical_bias="0.718" />
+        app:layout_constraintVertical_bias="0.718" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
