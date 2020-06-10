@@ -1,14 +1,17 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_log_ind.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -20,9 +23,9 @@ class LogInd : Fragment() {
     // TODO: Rename and change types of parameters
     var PasswordOkay: Boolean = false
     private lateinit var auth: FirebaseAuth
-
+    private lateinit var activity: MainActivity
     val TAG = "MainActivity"
-
+    val fragment_nearby = nearby()
 
 
 
@@ -31,16 +34,16 @@ class LogInd : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         auth = FirebaseAuth.getInstance()
+        activity = getActivity() as MainActivity
 
         val view: View = inflater!!.inflate(R.layout.fragment_log_ind, container, false)
         val text: TextView = view.findViewById(R.id.glemt_password)
-        val manager = fragmentManager
+
+
         text.setOnClickListener() {
             //Switch to fragment Glemt password
-
-
             val fragmentPassword = GlemtPassword()
-
+            val manager = fragmentManager
             if (manager != null) {
                 val transaction = manager.beginTransaction()
                 transaction.replace(R.id.fragtop, fragmentPassword)
@@ -52,22 +55,13 @@ class LogInd : Fragment() {
         }
 
         val LogIndKnap: Button = view.findViewById(R.id.LogIndKnap)
-        val fragment_nearby = nearby()
         LogIndKnap.setOnClickListener() {
             doLogInd()
-            if (PasswordOkay == true) {
-                if (manager != null) {
-                    val transaction = manager.beginTransaction()
-                    transaction.replace(R.id.fragtop, fragment_nearby)
-                    transaction.addToBackStack(null)
-                    transaction.commit()
-                }
+            signInwithEmail()
             }
-        }
+
         return view
-
     }
-
     fun doLogInd() {
         if (email.text.toString().isEmpty()) {
             email.error = "Indtast emailadresse"
@@ -78,39 +72,56 @@ class LogInd : Fragment() {
             email.error = "Indtast en valid email"
             email.requestFocus()
             return
-
         }
         if (password.text.toString().isEmpty()) {
             password.error = "Indtast password"
             password.requestFocus()
             return
         }
-        PasswordOkay = true
-       // signInWithEmailAndPassword()
+
     }
 
-/*    private fun signInWithEmailAndPassword() {
-        auth.signInWithEmailAndPassword(email.toString(), password.toString())
-            .addOnCompleteListener(this) {
-
-
-                MainActivity.getActivity().getResult()
-
-            if ((MainActivity).getActivity().getResult().isSuccessful) {
-                Log.d(TAG, "signInWithEmailAndPassword:succes")
+    fun signInwithEmail() {
+        auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
+            .addOnCompleteListener() { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    val user = auth.currentUser
+                    Log.d(TAG, "signInWithEmail:succes")
+                    updateUI(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.d(TAG,"signInWithEmail:failure")
+                    Toast.makeText(
+                        activity,
+                        "Forket login",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    updateUI(null)
+                }
             }
-                else {
-                Log.d(TAG, "signInWithEmailAndPassword:failure")
-                Toast.makeText(
-                    (MainActivity).getActivity().getBaseContext(), "Authentication failed.",
-                    Toast.LENGTH_SHORT
-                ).show()
+    }
+
+    fun updateUI(currentUser:FirebaseUser?){
+        Log.d(TAG,"Jeg er her")
+         val manager = fragmentManager
+        if(manager!=null && currentUser!=null) {
+
+                val transactionToNearby = manager.beginTransaction()
+                transactionToNearby.replace(R.id.fragtop, fragment_nearby)
+                transactionToNearby.addToBackStack(null)
+                transactionToNearby.commit()
+
             }
-        }
-    }*/
-
-
+        else{
+            Toast.makeText(activity,"Login fejlede", Toast.LENGTH_SHORT
+            ).show()       }
+    }
 }
+
+
+
+
 
 
 

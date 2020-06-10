@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction = manager.beginTransaction()
         fragmentTransaction.add(R.id.fragtop, fraglogin)
         fragmentTransaction.commit()
+
+
 }
 
 
