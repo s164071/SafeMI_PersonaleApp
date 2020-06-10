@@ -72,7 +72,7 @@ class GlemtPassword : Fragment() {
                 if (task.isSuccessful()){
                     Toast.makeText(
                         activity,
-                        "Emailen er sendt til din mail",
+                        "Emailen er sendt",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

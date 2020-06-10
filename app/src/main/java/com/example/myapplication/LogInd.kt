@@ -64,17 +64,17 @@ class LogInd : Fragment() {
 
     fun signInwithEmail() {
         if (email.text.toString().isEmpty()) {
-            email.error = "Indtast emailadresse"
+            email.error = "Indtast en emailadresse"
             email.requestFocus()
             return
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()) {
-            email.error = "Indtast en valid email"
+            email.error = "Indtast en valid emailadresse"
             email.requestFocus()
             return
         }
         if (password.text.toString().isEmpty()) {
-            password.error = "Indtast password"
+            password.error = "Indtast et password"
             password.requestFocus()
             return
         }
@@ -111,7 +111,7 @@ class LogInd : Fragment() {
 
             }
         else{
-            Toast.makeText(activity,"Login fejlede", Toast.LENGTH_SHORT
+            Toast.makeText(activity,"Fejl ved login. Prøv igen", Toast.LENGTH_SHORT
             ).show()       }
     }
 }
