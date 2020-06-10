@@ -21,7 +21,6 @@ private const val ARG_PARAM2 = "param2"
 
 class LogInd : Fragment() {
     // TODO: Rename and change types of parameters
-    var PasswordOkay: Boolean = false
     private lateinit var auth: FirebaseAuth
     private lateinit var activity: MainActivity
     val TAG = "MainActivity"
@@ -56,13 +55,14 @@ class LogInd : Fragment() {
 
         val LogIndKnap: Button = view.findViewById(R.id.LogIndKnap)
         LogIndKnap.setOnClickListener() {
-            doLogInd()
             signInwithEmail()
             }
 
         return view
     }
-    fun doLogInd() {
+
+
+    fun signInwithEmail() {
         if (email.text.toString().isEmpty()) {
             email.error = "Indtast emailadresse"
             email.requestFocus()
@@ -79,9 +79,6 @@ class LogInd : Fragment() {
             return
         }
 
-    }
-
-    fun signInwithEmail() {
         auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
             .addOnCompleteListener() { task ->
                 if (task.isSuccessful) {
@@ -94,7 +91,7 @@ class LogInd : Fragment() {
                     Log.d(TAG,"signInWithEmail:failure")
                     Toast.makeText(
                         activity,
-                        "Forket login",
+                        "Ingen bruger fundet med de indtastede loginoplysninger",
                         Toast.LENGTH_SHORT
                     ).show()
                     updateUI(null)
@@ -103,7 +100,7 @@ class LogInd : Fragment() {
     }
 
     fun updateUI(currentUser:FirebaseUser?){
-        Log.d(TAG,"Jeg er her")
+
          val manager = fragmentManager
         if(manager!=null && currentUser!=null) {
 
