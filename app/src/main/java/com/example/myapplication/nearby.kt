@@ -41,10 +41,12 @@ class nearby : Fragment() {
 
         beacon()
 
-        val borger = view.findViewById<>()
+       // view.findViewById<TextView>(R.id.borger).setText(borgernavn)
+       // view.findViewById<TextView>(R.id.oplysninger).setText(key + ": " +value)
 
-        borger.text="Borger i nærheden: " + borgernavn
-        oplysninger.text="Oplysninger: " + key + " " + value
+
+        borger.text= borgernavn
+        oplysninger.text= key + ": " + value
 
         return view
     }
@@ -75,7 +77,6 @@ class nearby : Fragment() {
 
 
         //3. Definerer Proximity zone
-
         val venueZone = ProximityZoneBuilder()
             .forTag("Jasmin")
             .inNearRange()
