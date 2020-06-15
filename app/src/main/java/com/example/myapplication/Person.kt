@@ -26,11 +26,12 @@ class Person : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_person, container, false)
-        retrievePersonalInformation()
+
         return view
     }
+}
 
-    private fun retrievePersonalInformation() {
+    /*private fun retrievePersonalInformation() {
 
 
 
@@ -63,3 +64,4 @@ class Person : Fragment() {
 
 
 
+*/
