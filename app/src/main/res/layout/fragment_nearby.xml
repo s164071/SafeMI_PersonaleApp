@@ -52,7 +52,7 @@
 
 
         <ImageButton
-            android:id="@+id/recent2"
+            android:id="@+id/recent"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"

@@ -38,7 +38,6 @@ class LogInd : Fragment() {
         val view: View = inflater!!.inflate(R.layout.fragment_log_ind, container, false)
         val text: TextView = view.findViewById(R.id.glemt_password)
 
-
         text.setOnClickListener() {
             //Switch to fragment Glemt password
             val fragmentPassword = GlemtPassword()
@@ -56,7 +55,7 @@ class LogInd : Fragment() {
         val LogIndKnap: Button = view.findViewById(R.id.LogIndKnap)
         LogIndKnap.setOnClickListener() {
             signInwithEmail()
-            }
+        }
 
         return view
     }
@@ -101,21 +100,19 @@ class LogInd : Fragment() {
 
     fun updateUI(currentUser:FirebaseUser?){
 
-         val manager = fragmentManager
+        val manager = fragmentManager
         if(manager!=null && currentUser!=null) {
 
-                val transactionToNearby = manager.beginTransaction()
-                transactionToNearby.replace(R.id.fragtop, fragment_nearby)
-                transactionToNearby.addToBackStack(null)
-                transactionToNearby.commit()
+            val transactionToNearby = manager.beginTransaction()
+            transactionToNearby.replace(R.id.fragtop, fragment_nearby)
+            transactionToNearby.addToBackStack(null)
+            transactionToNearby.commit()
 
-            }
-        else{
-            Toast.makeText(activity,"Fejl ved login. Prøv igen", Toast.LENGTH_SHORT
+        } else{
+            Toast.makeText(activity,"Fejl ved login", Toast.LENGTH_SHORT
             ).show()       }
     }
 }
-
 
 
 
