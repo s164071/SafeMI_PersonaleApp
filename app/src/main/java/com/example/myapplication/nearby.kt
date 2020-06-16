@@ -33,6 +33,7 @@ class nearby : Fragment() {
     private var borgernavn = ""
     private var value = ""
     private var key = ""
+    private var notNullPersons = ""
 
 
     ///////////////////////////////////////
@@ -95,6 +96,9 @@ class nearby : Fragment() {
                 Log.d(logTags, "Entered: " + borgernavn)
 
                 //patientinfoBox.text = " borgernavn er "+ borgernavn
+
+                keineborgere.visibility = View.GONE
+                horisontalline.visibility=View.VISIBLE
                 retrieveBeaconInformation()
 
             }
@@ -104,18 +108,17 @@ class nearby : Fragment() {
                 patientinfoBox.text = ""
                 patientinfoBox2.text = ""
 
-            }
+                keineborgere.visibility=View.VISIBLE
+                horisontalline.visibility=View.GONE
+
+                }
+
             .onContextChange { contexts ->
                 for (context in contexts) {
                     key = "CPR"
                     value = context.attachments[key] ?: "kukuk"
 
                     val notNullPersons = contexts.filterNotNull()
-                    if (notNullPersons.isEmpty()) {
-
-
-
-                    }
 
                 }
             }

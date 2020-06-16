@@ -121,6 +121,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
+                android:id="@+id/horisontalline"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
                 android:layout_gravity="center"
@@ -130,12 +131,13 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints" />
 
-
-
-
-
-
-
+            <TextView
+                android:id="@+id/keineborgere"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ingen borgere i nærheden"
+                tools:layout_editor_absoluteX="124dp"
+                tools:layout_editor_absoluteY="248dp" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
