@@ -12,18 +12,8 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_glemt_password.*
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [GlemtPassword.newInstance] factory method to
- * create an instance of this fragment.
- */
 class GlemtPassword : Fragment() {
+    private lateinit var activity: MainActivity
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,18 +25,12 @@ class GlemtPassword : Fragment() {
         val sendEmail: Button = view.findViewById(R.id.ResetPasswrodButton)
         sendEmail.setOnClickListener() {
             resetPasswordByEmail()
-
-            //Switch to fragment Glemt password
-
-            val tilbageknap: ImageButton = view.findViewById(R.id.TilbageKnap_GlemtPassword)
-            tilbageknap.setOnClickListener() {
-                val manager = fragmentManager
-                if (manager != null) {
-                    manager.popBackStack()
-                }
-            }
-
-
+        }
+        //Switch to fragment logind
+        val tilbageknap: ImageButton = view.findViewById(R.id.TilbageKnap_GlemtPassword)
+        tilbageknap.setOnClickListener() {
+            val manager = fragmentManager
+            manager?.popBackStack()
 
         }
         return view
@@ -62,7 +46,7 @@ class GlemtPassword : Fragment() {
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(Email_GlemtPassword.text.toString()).matches()) {
-            Email_GlemtPassword.error = "Den indtastede email er ikke en email"
+            Email_GlemtPassword.error = "Email skal indeholde @"
             Email_GlemtPassword.requestFocus()
             return
         }
