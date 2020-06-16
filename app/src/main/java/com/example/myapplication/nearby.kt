@@ -17,6 +17,10 @@ import android.widget.TextView
 import com.estimote.coresdk.common.internal.utils.L
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
 import com.estimote.proximity_sdk.api.ProximityZoneContext
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_nearby.*
@@ -83,18 +87,20 @@ class nearby : Fragment() {
         //3. Definerer Proximity zone
 
         val venueZone = ProximityZoneBuilder()
-            .forTag("patient1") //remember to change iBeaconTag for the right beacon
+            .forTag("Beacon413") //remember to change iBeaconTag for the right beacon
             .inNearRange()
 
             .onEnter { zoneContext ->
                 borgernavn = zoneContext.tag
                 Log.d(logTags, "Entered: " + borgernavn)
 
-                patientinfoBox.text = " borgernavn er "+ borgernavn
+                //patientinfoBox.text = " borgernavn er "+ borgernavn
+                retrieveBeaconInformation()
 
-                /* val title = zoneContext.attachments["CPR"]
-             val description = zoneContext.attachments["0123456789"]
-             Log.i(logTags, title + "" + description)*/
+
+
+
+
             }
             .onExit { zoneContext ->
                 Log.i(logTags, "Exited: " + borgernavn) //når bruger forlader zone
@@ -144,6 +150,57 @@ class nearby : Fragment() {
     override fun onDestroy() {
         observationsHandler?.stop()
         super.onDestroy()
+
+    }
+
+    //navn & cpr
+    private fun retrievePersonalInformation(user: String) {
+        Log.d(logTags, "Hej dette er brugeren " + user)
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(user)
+            .addValueEventListener(object : ValueEventListener {
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.d(logTags, "Jeg har IKKE søgt " + user)
+                }
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var mapUser = dataSnapshot.value as Map<String, Any>
+                    Log.d(logTags, "Jeg har søgt " + user)
+                    patientinfoBox.text = mapUser["navn"].toString()
+                    patientinfoBox2.text = "CPR: " + mapUser["persId"].toString()
+
+                }
+
+
+            })
+
+    }
+
+
+    private fun retrieveBeaconInformation() {
+        FirebaseDatabase.getInstance().getReference().child("ibeacon").child(borgernavn)
+
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(databaseError: DatabaseError) {
+
+                }
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                    var map = dataSnapshot.value as Map<String, Any>
+
+                    var user = map["userUid"].toString()
+
+                    Log.d(logTags, "dette er brugeren " + user)
+                    patientinfoBox2.text = user
+                    if (user!="") {
+                        retrievePersonalInformation(user)
+                    }
+                }
+
+            })
+
 
     }
 
