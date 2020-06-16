@@ -30,8 +30,15 @@ class nearby : Fragment() {
     private var value = ""
     private var key = ""
 
+
+    ///////////////////////////////////////
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+                              savedInstanceState: Bundle?
     ): View? {
 
         // Inflate the layout for this fragment
@@ -41,18 +48,15 @@ class nearby : Fragment() {
 
         beacon()
 
-       // view.findViewById<TextView>(R.id.borger).setText(borgernavn)
-       // view.findViewById<TextView>(R.id.oplysninger).setText(key + ": " +value)
+        // view.findViewById<TextView>(R.id.borger).setText(borgernavn)
+        // view.findViewById<TextView>(R.id.oplysninger).setText(key + ": " +value)
 
 
-        borger.text= borgernavn
-        oplysninger.text= key + ": " + value
+        //borger.text= borgernavn
+        //oplysninger.text= key + ": " + value
 
         return view
     }
-
-
-    ///////////////////////////////////////
 
 
    private fun beacon() {
@@ -77,19 +81,25 @@ class nearby : Fragment() {
 
 
         //3. Definerer Proximity zone
+
         val venueZone = ProximityZoneBuilder()
-            .forTag("Jasmin")
+            .forTag("patient1") //remember to change iBeaconTag for the right beacon
             .inNearRange()
 
             .onEnter { zoneContext ->
                 borgernavn = zoneContext.tag
                 Log.d(logTags, "Entered: " + borgernavn)
+
+                patientinfoBox.text = " borgernavn er "+ borgernavn
+
                 /* val title = zoneContext.attachments["CPR"]
              val description = zoneContext.attachments["0123456789"]
              Log.i(logTags, title + "" + description)*/
             }
             .onExit { zoneContext ->
                 Log.i(logTags, "Exited: " + borgernavn) //når bruger forlader zone
+
+                patientinfoBox.text = ""
                 /* val title = zoneContext.attachments["CPR"]
              val description = zoneContext.attachments["0123456789"]
              Log.i(logTags, title + "" + description)*/
@@ -136,6 +146,9 @@ class nearby : Fragment() {
         super.onDestroy()
 
     }
+
+
+
 
 }
 
