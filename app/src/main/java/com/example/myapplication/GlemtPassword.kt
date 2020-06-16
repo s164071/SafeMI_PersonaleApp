@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_glemt_password.*
 
 class GlemtPassword : Fragment() {
-    private lateinit var activity: MainActivity
+    val TAG = "MainActivity"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -21,14 +21,13 @@ class GlemtPassword : Fragment() {
         // Inflate the layout for this fragment
 
         val view: View = inflater!!.inflate(R.layout.fragment_glemt_password, container, false)
-
         val sendEmail: Button = view.findViewById(R.id.ResetPasswrodButton)
         sendEmail.setOnClickListener() {
             resetPasswordByEmail()
         }
         //Switch to fragment logind
-        val tilbageknap: ImageButton = view.findViewById(R.id.TilbageKnap_GlemtPassword)
-        tilbageknap.setOnClickListener() {
+        val  TilbageKnap: ImageButton = view.findViewById(R.id.TilbageKnap_GlemtPassword)
+       TilbageKnap.setOnClickListener() {
             val manager = fragmentManager
             manager?.popBackStack()
 
@@ -38,6 +37,7 @@ class GlemtPassword : Fragment() {
 
 
     fun resetPasswordByEmail(){
+        var activity: MainActivity =  getActivity() as MainActivity
 
         if (Email_GlemtPassword.text.toString().isEmpty()) {
             Email_GlemtPassword.error = "Indtast email"
@@ -54,18 +54,10 @@ class GlemtPassword : Fragment() {
         auth.sendPasswordResetEmail(Email_GlemtPassword.text.toString())
             .addOnCompleteListener(){task ->
                 if (task.isSuccessful()){
-                    Toast.makeText(
-                        activity,
-                        "Emailen er sendt",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(activity, "Emailen er sendt", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    Toast.makeText(
-                        activity,
-                        "Emailen er ikke tilknyttet nogen bruger",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(activity, "Emailen er ikke tilknyttet nogen bruger", Toast.LENGTH_SHORT).show()
                 }
 
             }
