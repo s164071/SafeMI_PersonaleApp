@@ -41,8 +41,9 @@ class nearby : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         // Inflate the layout for this fragment
@@ -63,7 +64,7 @@ class nearby : Fragment() {
     }
 
 
-   private fun beacon() {
+    private fun beacon() {
 
 
         //1. Opsætter Estimote credentials for forbindelse til estimote cloud
@@ -71,7 +72,6 @@ class nearby : Fragment() {
             "s170720-student-dtu-dk-s-p-j0r",
             "124af5cc28250d8e2d759fafd1fb5010"
         )
-
 
 
         //2. Opretter Proximity Observer
@@ -97,18 +97,13 @@ class nearby : Fragment() {
                 //patientinfoBox.text = " borgernavn er "+ borgernavn
                 retrieveBeaconInformation()
 
-
-
-
-
             }
             .onExit { zoneContext ->
                 Log.i(logTags, "Exited: " + borgernavn) //når bruger forlader zone
 
                 patientinfoBox.text = ""
-                /* val title = zoneContext.attachments["CPR"]
-             val description = zoneContext.attachments["0123456789"]
-             Log.i(logTags, title + "" + description)*/
+                patientinfoBox2.text = ""
+
             }
             .onContextChange { contexts ->
                 for (context in contexts) {
@@ -116,8 +111,10 @@ class nearby : Fragment() {
                     value = context.attachments[key] ?: "kukuk"
 
                     val notNullPersons = contexts.filterNotNull()
-                    if (notNullPersons.isNotEmpty()) {
-                        Log.i(logTags, "Oplysninger: " + key + " " + value)
+                    if (notNullPersons.isEmpty()) {
+
+
+
                     }
 
                 }
@@ -153,7 +150,7 @@ class nearby : Fragment() {
 
     }
 
-    //navn & cpr
+    //fremsøger navn & cpr
     private fun retrievePersonalInformation(user: String) {
         Log.d(logTags, "Hej dette er brugeren " + user)
 
@@ -177,7 +174,7 @@ class nearby : Fragment() {
 
     }
 
-
+    //anvender TAG til at finde tilknyttede uuid og bruger derefter retrievePersonalInformation til at udtrække navn og cpr
     private fun retrieveBeaconInformation() {
         FirebaseDatabase.getInstance().getReference().child("ibeacon").child(borgernavn)
 
@@ -193,19 +190,13 @@ class nearby : Fragment() {
                     var user = map["userUid"].toString()
 
                     Log.d(logTags, "dette er brugeren " + user)
-                    patientinfoBox2.text = user
-                    if (user!="") {
+                    //patientinfoBox2.text = user //indeholder denne uuid
+                    if (user != "") {
                         retrievePersonalInformation(user)
                     }
                 }
 
             })
-
-
     }
-
-
-
-
 }
 
