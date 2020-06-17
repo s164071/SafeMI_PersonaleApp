@@ -12,13 +12,8 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_glemt_password.*
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [GlemtPassword.newInstance] factory method to
- * create an instance of this fragment.
- */
 class GlemtPassword : Fragment() {
+    val TAG = "MainActivity"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,22 +21,15 @@ class GlemtPassword : Fragment() {
         // Inflate the layout for this fragment
 
         val view: View = inflater!!.inflate(R.layout.fragment_glemt_password, container, false)
-
         val sendEmail: Button = view.findViewById(R.id.ResetPasswrodButton)
         sendEmail.setOnClickListener() {
             resetPasswordByEmail()
-
-            //Switch to fragment Glemt password
-
-            val tilbageknap: ImageButton = view.findViewById(R.id.TilbageKnap_GlemtPassword)
-            tilbageknap.setOnClickListener() {
-                val manager = fragmentManager
-                if (manager != null) {
-                    manager.popBackStack()
-                }
-            }
-
-
+        }
+        //Switch to fragment logind
+        val  TilbageKnap: ImageButton = view.findViewById(R.id.TilbageKnap_GlemtPassword)
+       TilbageKnap.setOnClickListener() {
+            val manager = fragmentManager
+            manager?.popBackStack()
 
         }
         return view
@@ -49,15 +37,16 @@ class GlemtPassword : Fragment() {
 
 
     fun resetPasswordByEmail(){
+        var activity: MainActivity =  getActivity() as MainActivity
 
         if (Email_GlemtPassword.text.toString().isEmpty()) {
-            Email_GlemtPassword.error = "Indtast email"
+            Email_GlemtPassword.error = "Indtast en emailadresse"
             Email_GlemtPassword.requestFocus()
             return
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(Email_GlemtPassword.text.toString()).matches()) {
-            Email_GlemtPassword.error = "Den indtastede email er ikke en email"
+            Email_GlemtPassword.error = "Email skal indeholde @"
             Email_GlemtPassword.requestFocus()
             return
         }
@@ -65,18 +54,10 @@ class GlemtPassword : Fragment() {
         auth.sendPasswordResetEmail(Email_GlemtPassword.text.toString())
             .addOnCompleteListener(){task ->
                 if (task.isSuccessful()){
-                    Toast.makeText(
-                        activity,
-                        "Emailen er sendt",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(activity, "Emailen er sendt", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    Toast.makeText(
-                        activity,
-                        "Emailen er ikke tilknyttet nogen bruger",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(activity, "Emailen er ikke tilknyttet nogen bruger", Toast.LENGTH_SHORT).show()
                 }
 
             }
