@@ -40,7 +40,7 @@ class GlemtPassword : Fragment() {
         var activity: MainActivity =  getActivity() as MainActivity
 
         if (Email_GlemtPassword.text.toString().isEmpty()) {
-            Email_GlemtPassword.error = "Indtast email"
+            Email_GlemtPassword.error = "Indtast en emailadresse"
             Email_GlemtPassword.requestFocus()
             return
         }

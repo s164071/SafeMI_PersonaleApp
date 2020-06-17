@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -9,15 +11,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_log_ind.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 class LogInd : Fragment() {
     // TODO: Rename and change types of parameters
@@ -25,6 +24,7 @@ class LogInd : Fragment() {
     private lateinit var activity: MainActivity
     val TAG = "MainActivity"
     val fragment_nearby = nearby()
+    val fragmentPassword = GlemtPassword()
 
 
 
@@ -39,9 +39,10 @@ class LogInd : Fragment() {
         val text: TextView = view.findViewById(R.id.glemt_password)
 
         text.setOnClickListener() {
-            //Switch to fragment Glemt password
-            val fragmentPassword = GlemtPassword()
+
+            //Changes fragment to GlemtPassword
             val manager = fragmentManager
+            Log.d(TAG, "jeg er her")
             if (manager != null) {
                 val transaction = manager.beginTransaction()
                 transaction.replace(R.id.fragtop, fragmentPassword)
@@ -49,30 +50,29 @@ class LogInd : Fragment() {
                 transaction.commit()
             }
 
-
         }
 
         val LogIndKnap: Button = view.findViewById(R.id.LogIndKnap)
+        //Listens for click on the LogIn button
         LogIndKnap.setOnClickListener() {
-            signInwithEmail()
+            signInwithEmailandPassword()
         }
-
         return view
     }
 
 
-    fun signInwithEmail() {
+    fun signInwithEmailandPassword() {
         if (email.text.toString().isEmpty()) {
             email.error = "Indtast en emailadresse"
             email.requestFocus()
+
+                    //Shows error
             return
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()) {
-            email.error = "Indtast en valid emailadresse"
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()) {
+            email.error = "Email skal indeholde @"
             email.requestFocus()
             return
-        }
-        if (password.text.toString().isEmpty()) {
+        } else if (password.text.toString().isEmpty()) {
             password.error = "Indtast et password"
             password.requestFocus()
             return
@@ -85,14 +85,10 @@ class LogInd : Fragment() {
                     val user = auth.currentUser
                     Log.d(TAG, "signInWithEmail:succes")
                     updateUI(user)
-                } else {
-                    // If sign in fails, display a message to the user.
+                }
+                else {
+                        // If sign in fails, display a message to the user.
                     Log.d(TAG,"signInWithEmail:failure")
-                    Toast.makeText(
-                        activity,
-                        "Ingen bruger fundet med de indtastede loginoplysninger",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     updateUI(null)
                 }
             }
@@ -101,16 +97,29 @@ class LogInd : Fragment() {
     fun updateUI(currentUser:FirebaseUser?){
 
         val manager = fragmentManager
-        if(manager!=null && currentUser!=null) {
 
+        if (checkInternetAccess(activity)==false) {
+            Toast.makeText(
+                activity,
+                "Check at dit internet er slået til, og prøv igen",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else if(manager!=null && currentUser!=null) {
             val transactionToNearby = manager.beginTransaction()
             transactionToNearby.replace(R.id.fragtop, fragment_nearby)
             transactionToNearby.addToBackStack(null)
             transactionToNearby.commit()
+        }else{
+            Toast.makeText(activity, "Ingen brugere fundet med de indtastede loginoplysninger", Toast.LENGTH_SHORT).show()
+        }
 
-        } else{
-            Toast.makeText(activity,"Fejl ved login", Toast.LENGTH_SHORT
-            ).show()       }
+    }
+
+    fun checkInternetAccess(activity: AppCompatActivity):Boolean{
+        val connectivityManager=activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo=connectivityManager.activeNetworkInfo
+        return  networkInfo!=null && networkInfo.isConnected
+        //https://stackoverflow.com/questions/51141970/check-internet-connectivity-android-in-kotlin
     }
 }
 
