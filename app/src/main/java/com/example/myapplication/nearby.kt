@@ -105,9 +105,6 @@ class nearby : Fragment() {
 
                 retrieveBeaconInformation()
 
-                download()
-
-
             }
             .onExit { zoneContext ->
                 Log.i(logTags, "Exited: " + borgernavn) //når bruger forlader zone
@@ -180,6 +177,7 @@ class nearby : Fragment() {
                     patientinfoBox.text = mapUser["navn"].toString()
                     patientinfoBox2.text = "CPR: " + mapUser["persId"].toString()
 
+
                 }
 
 
@@ -206,21 +204,25 @@ class nearby : Fragment() {
                     //patientinfoBox2.text = user
                     if (user != "") {
                         retrievePersonalInformation(user)
+                        download(user)
                     }
                 }
 
             })
     }
 //prøv med user fra ovenstående
-    private fun download() {
+    private fun download(user: String) {
         auth = FirebaseAuth.getInstance()
         mystorage = FirebaseStorage.getInstance()
         val storageRef = mystorage.reference
-        val user = auth.currentUser?.uid.toString()
+        //val user = auth.currentUser?.uid.toString()
+
+        Log.i(logTags, "Bruger: " +user)
+
 
         val ref = mystorage.reference.child("$user/image/ProfilePic.jpg")
 
-        val file = File.createTempFile("ProfilePic", "jpg") //med "." eller ej?
+        val file = File.createTempFile("ProfilePic", "jpg")
 
         Log.d(logTags, "file $file")
         ref.getFile(file).addOnCompleteListener() { task ->
