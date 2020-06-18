@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.estimote.proximity_sdk.api.*
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.nfc.Tag
 import android.os.Message
 import android.util.*
@@ -17,13 +19,17 @@ import android.widget.TextView
 import com.estimote.coresdk.common.internal.utils.L
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
 import com.estimote.proximity_sdk.api.ProximityZoneContext
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_nearby.*
+import kotlinx.android.synthetic.main.fragment_nearby.view.*
+import java.io.File
 
 class nearby : Fragment() {
 
@@ -33,7 +39,9 @@ class nearby : Fragment() {
     private var borgernavn = ""
     private var value = ""
     private var key = ""
-    private var notNullPersons = ""
+    private lateinit var mystorage: FirebaseStorage
+    private lateinit var auth: FirebaseAuth
+    var bitmap: Bitmap? = null
 
 
     ///////////////////////////////////////
@@ -47,7 +55,6 @@ class nearby : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_nearby, container, false)
 
         activity = getActivity() as MainActivity
@@ -55,11 +62,9 @@ class nearby : Fragment() {
         beacon()
 
         // view.findViewById<TextView>(R.id.borger).setText(borgernavn)
-        // view.findViewById<TextView>(R.id.oplysninger).setText(key + ": " +value)
 
+        // borger.text= borgernavn
 
-        //borger.text= borgernavn
-        //oplysninger.text= key + ": " + value
 
         return view
     }
@@ -95,11 +100,13 @@ class nearby : Fragment() {
                 borgernavn = zoneContext.tag
                 Log.d(logTags, "Entered: " + borgernavn)
 
-                //patientinfoBox.text = " borgernavn er "+ borgernavn
-
-                keineborgere.visibility = View.GONE
+                keineborgere.visibility=View.GONE
                 horisontalline.visibility=View.VISIBLE
+
                 retrieveBeaconInformation()
+
+                download()
+
 
             }
             .onExit { zoneContext ->
@@ -110,6 +117,9 @@ class nearby : Fragment() {
 
                 keineborgere.visibility=View.VISIBLE
                 horisontalline.visibility=View.GONE
+
+
+
 
                 }
 
@@ -190,16 +200,42 @@ class nearby : Fragment() {
 
                     var map = dataSnapshot.value as Map<String, Any>
 
-                    var user = map["userUid"].toString()
+                    var user = map["brugerUID"].toString()
 
                     Log.d(logTags, "dette er brugeren " + user)
-                    //patientinfoBox2.text = user //indeholder denne uuid
+                    //patientinfoBox2.text = user
                     if (user != "") {
                         retrievePersonalInformation(user)
                     }
                 }
 
             })
+    }
+//prøv med user fra ovenstående
+    private fun download() {
+        auth = FirebaseAuth.getInstance()
+        mystorage = FirebaseStorage.getInstance()
+        val storageRef = mystorage.reference
+        val user = auth.currentUser?.uid.toString()
+
+        val ref = mystorage.reference.child("$user/image/ProfilePic.jpg")
+
+        val file = File.createTempFile("ProfilePic", "jpg") //med "." eller ej?
+
+        Log.d(logTags, "file $file")
+        ref.getFile(file).addOnCompleteListener() { task ->
+            if  (task.isSuccessful) {
+                bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                Log.d(logTags, "file path" + file.absolutePath)
+
+                patientPic.setImageBitmap(bitmap)
+
+                Log.d(logTags, "SUCCESS load and set profilepic")
+
+            } else
+                Log.d(logTags, "Failed to load and set profilepic $task")
+
+        }
     }
 }
 
