@@ -31,56 +31,31 @@ data class HomeData(
     val elements: List<HomeDataElement>,
     val authentication: FirebaseUser?
 )
-//class PersonViewModel: ViewModel() {
-// private val logtag = HomeViewModel::class.simpleName
-// //private val repo = PersonInformaitoner.getUserRepo()
-// private val modelViewHomeLiveData by lazy {
-// MutableLiveData<HomeData?>()
-// }
-//
-// fun getHomeData(): LiveData<HomeData?> = modelViewHomeLiveData
-//
-//
-//
-// fun homeUpdateRepo( currentUser: FirebaseUser){
-// repo.upDataRepo(currentUser) { user ->
-// if (user == null) {
-// modelViewHomeLiveData.postValue(null)
-// } else {
-// Log.d(logtag, "user: $user")
-// val list = mutableListOf<HomeDataElement>()
-// list.add(HomeDataElement(user.name, HomeDataType.NAME))
-// list.add(HomeDataElement(user.cpr, HomeDataType.CPR))
-// list.add(HomeDataElement(user.donor, HomeDataType.BLOD))
-// list.addAll(user.medicines.map { HomeDataElement(it, HomeDataType.MEDICIN) })
-// list.addAll(user.allergies.map { HomeDataElement(it, HomeDataType.ALLERGIE) })
-// list.addAll(user.emergencies.map { HomeDataElement(it, HomeDataType.EMERGENCY) })
-// list.addAll(user.others.map { HomeDataElement(it, HomeDataType.OTHER) })
-// modelViewHomeLiveData.postValue(HomeData(user.image, list, user.authentication))
-// }
-// }
-// }
-//
-//
-// /*fun login(username: String, password: String){
-// Log.d(logtag,"first i login")
-// repo.login(username,password) { user ->
-// if (user == null) {
-// modelViewHomeLiveData.postValue(null)
-// } else {
-// Log.d(logtag, "user: $user")
-// val list = mutableListOf<HomeDataElement>()
-// list.add(HomeDataElement(user.name, HomeDataType.NAME))
-// list.add(HomeDataElement(user.cpr, HomeDataType.CPR))
-// list.add(HomeDataElement(user.donor, HomeDataType.BLOD))
-// list.addAll(user.medicines.map { HomeDataElement(it, HomeDataType.MEDICIN) })
-// list.addAll(user.allergies.map { HomeDataElement(it, HomeDataType.ALLERGIE) })
-// list.addAll(user.emergencies.map { HomeDataElement(it, HomeDataType.EMERGENCY) })
-// list.addAll(user.others.map { HomeDataElement(it, HomeDataType.OTHER) })
-// modelViewHomeLiveData.postValue(HomeData(user.image, list, user.authentication))
-// Log.d(logtag, "Homedata: $list")
-// }
-// }
-// }
-//
-// }
+
+class PersonViewModel: ViewModel() {
+    private val logtag = PersonViewModel::class.simpleName
+    private val repo = PersonInformaitoner.getUserRepo()
+    private val modelViewHomeLiveData by lazy {
+        MutableLiveData<HomeData?>()
+    }
+
+fun getHomeData(): LiveData<HomeData?> = modelViewHomeLiveData
+
+fun homeUpdateRepo( currentUser: FirebaseUser){
+    repo.upDataRepo(currentUser) { user ->
+        if (user == null) {
+            modelViewHomeLiveData.postValue(null)
+        } else {
+            Log.d(logtag, "user: $user")
+            val list = mutableListOf<HomeDataElement>()
+            list.add(HomeDataElement(user.name, HomeDataType.NAME))
+            list.add(HomeDataElement(user.cpr, HomeDataType.CPR))
+            list.add(HomeDataElement(user.donor, HomeDataType.BLOD))
+            list.addAll(user.medicines.map { HomeDataElement(it, HomeDataType.MEDICIN) })
+            list.addAll(user.allergies.map { HomeDataElement(it, HomeDataType.ALLERGIE) })
+            list.addAll(user.emergencies.map { HomeDataElement(it, HomeDataType.EMERGENCY) })
+            list.addAll(user.others.map { HomeDataElement(it, HomeDataType.OTHER) })
+            modelViewHomeLiveData.postValue(HomeData(user.image, list, user.authentication))
+        }
+    }
+}

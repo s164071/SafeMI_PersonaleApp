@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import com.estimote.coresdk.cloud.model.User
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -13,7 +14,9 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 
-class PersonInformaitoner (val authentication: FirebaseUser,
+
+data class User(
+    //val authentication: FirebaseUser,
     val name: String,
     val cpr: String,
     val image: Bitmap?,
@@ -22,24 +25,27 @@ class PersonInformaitoner (val authentication: FirebaseUser,
     val allergies: List<String>,
     val emergencies: List<String>,
     val others: List<String>
-    ){/*
+)
+
 
 //Denne metode skal erstattes af noget andet
+interface UserInterface {
+    fun patientfraDatabase(userId: String, onLogin: ((User?) -> Unit))
 
+}
 
-    class UserRepository(): UserInterface {
-        private val logtag = UserRepository::class.simpleName
+    class PersonInformaitoner() :UserInterface{
+        private val logtag = PersonInformaitoner::class.simpleName
         val auth = FirebaseAuth.getInstance()
 
 
       
-        override fun patientfraDatabase(user: String) {
-            Log.d(logtag, "patient id")
+        override fun patientfraDatabase(userId: String, onLogin: ((User?) -> Unit)) {
+            Log.d(logtag, "patient id er "+userId)
 
             val db = FirebaseDatabase.getInstance().reference.child("users")
             //var user: User
             //var userId: String
-
 
                         Log.d(logtag, "userID: $userId")
                         db.child(userId).addValueEventListener(object : ValueEventListener {
@@ -63,7 +69,7 @@ class PersonInformaitoner (val authentication: FirebaseUser,
                                             .getFirebaseList()
                                     )
 
-                                    onLogin.invoke(user)
+                                    onLogin.invoke(user) // Hvorfor vil den ikke godtage denne her?
                                 }
 
 
@@ -84,56 +90,48 @@ class PersonInformaitoner (val authentication: FirebaseUser,
 
                     }
 
-                    if (!task.isSuccessful) {
-                        Log.d(logtag, "jeg fejlede med at logge ind")
-                        onLogin.invoke(null)
-                    }
-                }
 
-            /*val usertoken = firbase.login(username, password)
-            val firbaseUser = firmbase.gatData(usertoken)
 
-            return User(
-                firbaseUser.name,
-                firbaseUser.downladProfileImage(),
-                firbaseUser.dsm.map { Medicine(it.firebaseDsmName, it.firbaseDsmType) }
-            )*/
 
+fun upDataRepo(user: String, onLogin: ((User?) -> Unit)) {
+    val db = FirebaseDatabase.getInstance().reference.child("users")
+        db.child(user).addValueEventListener(object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            Log.d(logtag, dataSnapshot.child("Andet").value.toString())
+            // Get Post object and use the values to update the UI
+            download(user) {
+                val user = User(
+
+                    name = dataSnapshot.child("navn").getValue(true).toString(),
+                    cpr = dataSnapshot.child("persId").getValue(true).toString(),
+                    medicines = dataSnapshot.child("Medicin").value.toString()
+                        .getFirebaseList(),
+                    donor = dataSnapshot.child("Donor").getValue(true).toString(),
+                    allergies = dataSnapshot.child("Allergier").value.toString()
+                        .getFirebaseList(),
+                    others = dataSnapshot.child("Andet").value.toString().getFirebaseList(),
+                    image = it,
+                    emergencies = getEmengencyFirebaseList(
+                        dataSnapshot.child("Kontaktperson").child("navn").value.toString(),
+                        dataSnapshot.child("Kontaktperson").child("nummer").value.toString()
+                    )
+                )
+
+                onLogin.invoke(user)
+            }
         }
-
-        fun upDataRepo(currentUser: FirebaseUser, onLogin: ((User?) -> Unit)) {
-            val db = FirebaseDatabase.getInstance().reference.child("users")
-            val userId = currentUser.uid
-            db.child(userId).addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    Log.d(logtag, dataSnapshot.child("Andet").value.toString())
-                    // Get Post object and use the values to update the UI
-                    download(userId) {
-                        val user = User(name = dataSnapshot.child("navn").getValue(true).toString(), cpr = dataSnapshot.child("persId").getValue(true).toString(), medicines = dataSnapshot.child("Medicin").value.toString()
-                                .getFirebaseList(), donor = dataSnapshot.child("Donor").getValue(true).toString(), allergies = dataSnapshot.child("Allergier").value.toString()
-                                .getFirebaseList(), others = dataSnapshot.child("Andet").value.toString().getFirebaseList(), image = it, emergencies = getEmengencyFirebaseList(
-                                dataSnapshot.child("Kontaktperson").child("navn").value.toString(),
-                                dataSnapshot.child("Kontaktperson").child("nummer").value.toString()
-                            ))
-
-                        onLogin.invoke(user)
-                    }
-                }
-                override fun onCancelled(databaseError: DatabaseError) {
-                    // Getting Post failed, log a message
-                    Log.d(logtag, "loadPost:onCancelled", databaseError.toException())
-                    onLogin.invoke(null)
-                }
-            })
+        override fun onCancelled(databaseError: DatabaseError) {
+            // Getting Post failed, log a message
+            Log.d(logtag, "loadPost:onCancelled", databaseError.toException())
+            onLogin.invoke(null)
         }
-
-
-
+    })
+}
 
         companion object {
 
-            fun getUserRepo(): UserRepository {
-                return UserRepository()
+            fun getUserRepo(): PersonInformaitoner {
+                return PersonInformaitoner()
             }
         }
 
@@ -199,5 +197,5 @@ class PersonInformaitoner (val authentication: FirebaseUser,
                 list
             }
 
-        }*/
+        }
     }
