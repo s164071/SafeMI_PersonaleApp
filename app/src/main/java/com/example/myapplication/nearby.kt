@@ -1,40 +1,35 @@
 package com.example.myapplication
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import android.app.Notification
-import androidx.appcompat.app.AppCompatActivity
-import com.estimote.proximity_sdk.api.*
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.nfc.Tag
-import android.os.Message
-import android.util.*
-import android.widget.Button
+import android.graphics.drawable.BitmapDrawable
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import com.estimote.coresdk.common.internal.utils.L
+import androidx.core.view.drawToBitmap
+import androidx.fragment.app.Fragment
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
-import com.estimote.proximity_sdk.api.ProximityZoneContext
-import com.google.firebase.auth.FirebaseAuth
+import com.estimote.proximity_sdk.api.EstimoteCloudCredentials
+import com.estimote.proximity_sdk.api.ProximityObserver
+import com.estimote.proximity_sdk.api.ProximityObserverBuilder
+import com.estimote.proximity_sdk.api.ProximityZoneBuilder
 import com.example.myapplication.person.Person
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_nearby.*
-import kotlinx.android.synthetic.main.fragment_nearby.view.*
+import java.io.ByteArrayOutputStream
 import java.io.File
+
 
 class nearby : Fragment() {
 
@@ -67,11 +62,38 @@ class nearby : Fragment() {
 
         activity = getActivity() as MainActivity
 
-        beacon()
+        //beacon()
+        retrieveBeaconInformation()
 
         // view.findViewById<TextView>(R.id.borger).setText(borgernavn)
 
         // borger.text= borgernavn
+        val recent : ImageButton = view.findViewById(R.id.recent)
+        recent.setOnClickListener(){
+            var bundle : Bundle = Bundle()
+            val recentFragment : Recent = Recent()
+
+            bundle.putString("name", patientinfoBox.text.toString())
+            bundle.putString("cpr", patientinfoBox.text.toString())
+
+            val image = patientPic.drawToBitmap()
+
+            var bs: ByteArrayOutputStream = ByteArrayOutputStream()
+            image.compress(Bitmap.CompressFormat.PNG, 50, bs)
+
+            bundle.putByteArray("ProfilePic",bs.toByteArray())
+
+            recentFragment.arguments=bundle
+
+            val manager = fragmentManager
+            if (manager != null) {
+                val transaction = manager.beginTransaction()
+                transaction.replace(R.id.fragtop, recentFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }
+
+        }
 
 
         return view
@@ -207,7 +229,7 @@ class nearby : Fragment() {
 
     //anvender TAG til at finde tilknyttede uuid og bruger derefter retrievePersonalInformation til at udtrække navn og cpr
     private fun retrieveBeaconInformation() {
-        FirebaseDatabase.getInstance().getReference().child("ibeacon").child(borgernavn)
+        FirebaseDatabase.getInstance().getReference().child("ibeacon").child("Beacon413")
 
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(databaseError: DatabaseError) {
