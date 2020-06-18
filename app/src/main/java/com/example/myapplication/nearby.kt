@@ -15,11 +15,16 @@ import android.graphics.BitmapFactory
 import android.nfc.Tag
 import android.os.Message
 import android.util.*
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.estimote.coresdk.common.internal.utils.L
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
 import com.estimote.proximity_sdk.api.ProximityZoneContext
 import com.google.firebase.auth.FirebaseAuth
+import com.example.myapplication.person.Person
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -32,6 +37,8 @@ import kotlinx.android.synthetic.main.fragment_nearby.view.*
 import java.io.File
 
 class nearby : Fragment() {
+
+    val fragment_person = Person()
 
     private lateinit var activity: MainActivity
     private var observationsHandler: ProximityObserver.Handler? = null
@@ -55,6 +62,7 @@ class nearby : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_nearby, container, false)
 
         activity = getActivity() as MainActivity
@@ -70,7 +78,7 @@ class nearby : Fragment() {
     }
 
 
-    private fun beacon() {
+    fun beacon() {
 
 
         //1. Opsætter Estimote credentials for forbindelse til estimote cloud
@@ -93,7 +101,7 @@ class nearby : Fragment() {
         //3. Definerer Proximity zone
 
         val venueZone = ProximityZoneBuilder()
-            .forTag("Beacon413") //remember to change iBeaconTag for the right beacon
+            .forTag("patient1") //remember to change iBeaconTag for the right beacon
             .inNearRange()
 
             .onEnter { zoneContext ->
@@ -182,8 +190,20 @@ class nearby : Fragment() {
 
 
             })
-
+        Log.d(logTags, "Hej dette er brugeren " + user)
+        view?.findViewById<ImageView>(R.id.patientPic)?.setOnClickListener() {
+            transferData(user)
+            updateUI(user)
+            Log.d(logTags, "UpdateUImetode der over føres "+user)
+        }
     }
+
+    private fun transferData(user:String) {
+
+        TODO("Not yet implemented")
+    }
+
+
 
     //anvender TAG til at finde tilknyttede uuid og bruger derefter retrievePersonalInformation til at udtrække navn og cpr
     private fun retrieveBeaconInformation() {
@@ -239,5 +259,24 @@ class nearby : Fragment() {
 
         }
     }
+
+     fun updateUI(user:String){
+
+        Log.d(logTags, "Hej dette er brugeren der bliver ført videre " + user)
+        val manager = fragmentManager
+        if(manager!=null && user!=null) {
+
+            val transactionToNearby = manager.beginTransaction()
+            transactionToNearby.replace(R.id.fragtop, fragment_person)
+            transactionToNearby.addToBackStack(null)
+            transactionToNearby.commit()
+
+        } else{
+            Toast.makeText(activity,"Fejl kunne ikke overføre bruger", Toast.LENGTH_SHORT
+            ).show()       }
+    }
+
+
+
 }
 

@@ -94,7 +94,7 @@ class LogInd : Fragment() {
             }
     }
 
-    fun updateUI(currentUser:FirebaseUser?){
+     fun updateUI(currentUser:FirebaseUser?){
 
         val manager = fragmentManager
         if(manager!=null && currentUser!=null) {
