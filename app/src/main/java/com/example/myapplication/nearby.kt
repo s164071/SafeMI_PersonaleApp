@@ -48,6 +48,13 @@ class nearby : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        navn.visibility=View.GONE
+        cpr.visibility=View.GONE
+        horisontalline.visibility=View.GONE
+        logud.visibility=View.VISIBLE
+        tekstlogud.visibility=View.VISIBLE
+
     }
 
     override fun onCreateView(
@@ -55,7 +62,9 @@ class nearby : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+
         val view: View = inflater.inflate(R.layout.fragment_nearby, container, false)
+
 
         activity = getActivity() as MainActivity
 
@@ -64,7 +73,6 @@ class nearby : Fragment() {
         // view.findViewById<TextView>(R.id.borger).setText(borgernavn)
 
         // borger.text= borgernavn
-
 
         return view
     }
@@ -102,6 +110,10 @@ class nearby : Fragment() {
 
                 keineborgere.visibility=View.GONE
                 horisontalline.visibility=View.VISIBLE
+                navn.visibility=View.VISIBLE
+                cpr.visibility=View.VISIBLE
+                patientPic.visibility=View.VISIBLE
+
 
                 retrieveBeaconInformation()
 
@@ -114,6 +126,9 @@ class nearby : Fragment() {
 
                 keineborgere.visibility=View.VISIBLE
                 horisontalline.visibility=View.GONE
+                navn.visibility=View.GONE
+                cpr.visibility=View.GONE
+                patientPic.visibility=View.GONE
 
 
 
@@ -201,16 +216,20 @@ class nearby : Fragment() {
                     var user = map["brugerUID"].toString()
 
                     Log.d(logTags, "dette er brugeren " + user)
-                    //patientinfoBox2.text = user
+
                     if (user != "") {
                         retrievePersonalInformation(user)
                         download(user)
+
                     }
+
+
                 }
 
             })
     }
-//prøv med user fra ovenstående
+
+    //prøv med user fra ovenstående
     private fun download(user: String) {
         auth = FirebaseAuth.getInstance()
         mystorage = FirebaseStorage.getInstance()
