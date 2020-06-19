@@ -3,10 +3,7 @@ package com.example.myapplication.DataModel
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
-import com.estimote.coresdk.cloud.model.User
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -53,7 +50,7 @@ interface UserInterface {
 
                                 // Get Post object and use the values to update the UI
                                 download(userId) {
-                                    val user = User(
+                                    val useruser = User(
 
                                         name = dataSnapshot.child("navn").getValue(true).toString(),
                                         cpr = dataSnapshot.child("persId").getValue(true).toString(),
@@ -69,7 +66,7 @@ interface UserInterface {
                                             .getFirebaseList()
                                     )
 
-                                    onLogin.invoke(user) // Hvorfor vil den ikke godtage denne her?
+                                    onLogin.invoke(useruser) // Hvorfor vil den ikke godtage denne her?
                                 }
 
 
@@ -93,13 +90,14 @@ interface UserInterface {
 
 
 
-fun upDataRepo(user: String, onLogin: ((User?) -> Unit)) {
+fun upDataRepo(userID: String, onLogin: ((User?) -> Unit)) {
     val db = FirebaseDatabase.getInstance().reference.child("users")
-        db.child(user).addValueEventListener(object : ValueEventListener {
+
+    db.child(userID).addValueEventListener(object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             Log.d(logtag, dataSnapshot.child("Andet").value.toString())
             // Get Post object and use the values to update the UI
-            download(user) {
+            download(userID) {
                 val user = User(
 
                     name = dataSnapshot.child("navn").getValue(true).toString(),

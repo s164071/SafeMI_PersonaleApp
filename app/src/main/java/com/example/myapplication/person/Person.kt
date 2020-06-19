@@ -1,5 +1,7 @@
 package com.example.myapplication.person
 
+import android.Manifest
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.view.inputmethod.InputMethodManager
 import com.estimote.coresdk.cloud.model.User
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
@@ -23,8 +26,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 
 
+import androidx.fragment.app.activityViewModels
+import kotlinx.android.synthetic.main.fragment_person.*
+
 class Person : Fragment() {
-    val fragment_nearby = nearby()
+    //val fragment_nearby = nearby()
 
     private lateinit var activity: MainActivity
     private val logtag = Person::class.simpleName
@@ -48,8 +54,9 @@ class Person : Fragment() {
             //val current = bundle.getString("bundleKey")
             // Do something with the result...
         //}
-        model.homeUpdateRepo(current)
-        //activity = getActivity() as MainActivity
+
+
+
 
         return view
     }
