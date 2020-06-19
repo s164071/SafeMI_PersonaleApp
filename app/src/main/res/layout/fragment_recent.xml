@@ -3,82 +3,212 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="0dp"
+    android:background="#FFFFFF"
+    android:gravity="bottom"
     android:orientation="vertical"
     tools:context=".Recent">
 
     <LinearLayout
         android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
-        android:layout_height="104dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="7dp"
+        android:layout_weight="0.1"
+        android:background="#FFFFFF"
+        android:gravity="center|center_vertical"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/InfoTekst"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.75"
-            android:gravity="center|center_horizontal"
-            android:text="Borgere set for nyligt"
-            android:textSize="27sp"
-            android:textStyle="bold" />
+            android:layout_weight="0.7"
+            android:background="#FFFFFF"
+            android:gravity="center_vertical"
+            android:text="Seneste borgere"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="30sp"
+            android:textStyle="normal" />
 
-        <Button
-            android:id="@+id/button3"
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:adjustViewBounds="true"
+            android:background="#FFFFFF"
+            android:padding="7.5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/logout" />
+
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:text="Button" />
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:background="#FFFFFF"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Logud"
+            android:textColor="#292626" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout4"
+    <View
+        android:id="@+id/horisontalline"
         android:layout_width="match_parent"
-        android:layout_height="111dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="204dp">
+        android:layout_height="0dp"
+        android:layout_weight="0.002"
+        android:background="@color/temafarve" />
 
-        <ImageView
-            android:id="@+id/Profile"
-            android:layout_width="111dp"
-            android:layout_height="107dp"
-            tools:src="@tools:sample/avatars" />
+    <LinearLayout
+        android:id="@+id/Informationer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="204dp"
+        android:layout_weight="0.2">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/home_cardView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.3"
+            app:cardCornerRadius="50dp">
+
+            <ImageView
+                android:id="@+id/Profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/avatars" />
+
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
-            android:layout_width="296dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.1"
             android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="0.5"
+                android:src="@drawable/cpr" />
 
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:src="@drawable/navn" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.75"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/placefelt"
-                android:layout_width="wrap_content"
+                android:id="@+id/navnefeldt"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Hej" />
+                android:layout_weight="0.5"
+                android:adjustViewBounds="true"
+                android:background="#FFFFFF"
+                android:gravity="center_vertical"
+                android:scaleType="centerInside"
+                android:textSize="18sp"
+                android:textStyle="normal" />
 
             <TextView
-                android:id="@+id/hejfelt"
-                android:layout_width="wrap_content"
+                android:id="@+id/cprfeldt"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Hej" />
+                android:layout_weight="0.5"
+                android:background="#FFFFFF"
+
+                android:drawablePadding="10dp"
+                android:duplicateParentState="false"
+                android:gravity="center_vertical"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                app:drawableTint="#101010" />
+
         </LinearLayout>
 
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/IngenBorgere"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="326dp"
-        android:text="Du har ikke set nogen borgere"
-        android:visibility="gone" />
+    <LinearLayout
+        android:id="@+id/IngenBorgereLayout"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/knapper"
+        android:layout_below="@+id/Informationer"
+        android:layout_weight="0.3"
+        android:gravity="center|center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/IngenBorgere"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="326dp"
+            android:layout_weight="0.9"
+            android:gravity="center"
+            android:text="Ingen borgere at vise"
+            android:textSize="24sp"
+            android:visibility="visible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/knapper"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/home_recent"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/temafarve"
+            android:clickable="true"
+            android:src="@drawable/hjem"
+            android:tint="@null" />
+
+        <ImageButton
+            android:id="@+id/recent_recent"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:scaleType="center"
+            android:src="@drawable/ur"
+            android:tint="@null" />
+
+    </LinearLayout>
 
 </LinearLayout>
+

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbarThumbHorizontal="@color/temafarve"
     tools:context=".LogInd">
 
         <ImageView
@@ -50,11 +51,15 @@
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:longClickable="false"
-                    android:shadowColor="#131313"
+                    android:scrollbarThumbHorizontal="@color/temafarve"
+                    android:scrollbarThumbVertical="@color/temafarve"
+                    android:scrollbarTrackVertical="@color/temafarve"
+                    android:shadowColor="@color/temafarve"
                     android:textColor="#252424"
-                    android:textColorHighlight="#121112"
+                    android:textColorHighlight="@color/temafarve"
                     android:textColorHint="#151414"
-                    android:textColorLink="#090909" />
+                    android:textColorLink="@color/temafarve"
+                    android:textCursorDrawable="@color/temafarve" />
 
                 <EditText
                     android:id="@+id/password"
@@ -65,7 +70,14 @@
                     android:ems="10"
                     android:hint="@string/password"
                     android:inputType="textPassword"
-                    android:textColorHint="#0E0E0E" />
+                    android:shadowColor="@color/temafarve"
+                    android:textColorHighlight="@color/temafarve"
+                    android:textColorHint="#151414"
+                    android:textColorLink="@color/temafarve"
+                    android:textCursorDrawable="@color/temafarve"
+                    android:textSelectHandle="@color/temafarve"
+                    android:textSelectHandleLeft="@color/temafarve"
+                    android:textSelectHandleRight="@color/temafarve" />
         </LinearLayout>
 
         <LinearLayout
@@ -84,6 +96,7 @@
                     android:id="@+id/LogIndKnap"
                     android:layout_width="162dp"
                     android:layout_height="60dp"
+                    android:background="@drawable/rounded_button"
                     android:text="@string/Log_In_Knap" />
 
                 <TextView

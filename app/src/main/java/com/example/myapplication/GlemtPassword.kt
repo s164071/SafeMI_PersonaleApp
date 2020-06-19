@@ -32,18 +32,16 @@ class GlemtPassword : Fragment() {
             resetPasswordByEmail()
 
             //Switch to fragment Glemt password
-
+        }
             val tilbageknap: ImageButton = view.findViewById(R.id.TilbageKnap_GlemtPassword)
             tilbageknap.setOnClickListener() {
-                val manager = fragmentManager
+                val manager = parentFragmentManager
                 if (manager != null) {
                     manager.popBackStack()
                 }
             }
 
 
-
-        }
         return view
     }
 

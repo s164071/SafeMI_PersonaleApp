@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_log_ind.*
 
 
 class LogInd : Fragment() {
-    // TODO: Rename and change types of parameters
+
     private lateinit var auth: FirebaseAuth
     private lateinit var activity: MainActivity
     val TAG = "MainActivity"
@@ -37,7 +37,7 @@ class LogInd : Fragment() {
         text.setOnClickListener() {
             //Switch to fragment Glemt password
             val fragmentPassword = GlemtPassword()
-            val manager = fragmentManager
+            val manager = parentFragmentManager
             if (manager != null) {
                 val transaction = manager.beginTransaction()
                 transaction.replace(R.id.fragtop, fragmentPassword)
@@ -94,7 +94,7 @@ class LogInd : Fragment() {
             }
     }
 
-     fun updateUI(currentUser:FirebaseUser?){
+     private fun updateUI(currentUser:FirebaseUser?){
 
         val manager = fragmentManager
         if(manager!=null && currentUser!=null) {
