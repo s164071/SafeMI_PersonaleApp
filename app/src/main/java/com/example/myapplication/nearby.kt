@@ -65,8 +65,8 @@ class nearby : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_nearby, container, false)
 
         activity = getActivity() as MainActivity
-
-        beacon()
+        retrieveBeaconInformation()
+        //beacon()
 
         val recent : ImageButton = view!!.findViewById(R.id.recent)
         recent.setOnClickListener() {
@@ -303,6 +303,8 @@ class nearby : Fragment() {
 
         var bundle: Bundle = Bundle()
 
+
+    //    Log.d(logTags, "Dette er navn ": textViewName.text.toString() )
         bundle.putString("name", textViewName.text.toString())
         bundle.putString("cpr", textViewCPR.text.toString())
 
