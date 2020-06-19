@@ -1,5 +1,4 @@
 package com.example.myapplication.person
-
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,13 +21,12 @@ import androidx.fragment.app.activityViewModels
 import kotlinx.android.synthetic.main.fragment_person.*
 
 class Person : Fragment() {
-    //val fragment_nearby = nearby()
 
     private lateinit var activity: MainActivity
     private val logtag = Person::class.simpleName
     private lateinit var database: DatabaseReference
     private lateinit var mystorage: FirebaseStorage
-    //private lateinit var auth: FirebaseAuth
+
     private val model: PersonViewModel by activityViewModels()
 
 
@@ -35,12 +34,16 @@ class Person : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //auth=FirebaseAuth.getInstance()
+
 
         val view: View = inflater.inflate(R.layout.fragment_person, container, false)
-        view?.findViewById<ImageView>(R.id.backfromPTinformationer)?.setOnClickListener() {
-            Log.d(logtag,"Der bliver nu trykket på tilbage fra personfragment")
 
+        view.findViewById<ImageView>(R.id.backfromPTinformationer).setOnClickListener() {
+            Log.d(logtag,"Der bliver nu trykket på tilbage fra personfragment")
+                    val manager : FragmentManager? =fragmentManager
+            if (manager!=null){
+                manager.popBackStack()
+            }
         }
         return view
     }
