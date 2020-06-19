@@ -96,7 +96,7 @@ class LogInd : Fragment() {
 
      private fun updateUI(currentUser:FirebaseUser?){
 
-        val manager = fragmentManager
+        val manager = parentFragmentManager
         if(manager!=null && currentUser!=null) {
 
             val transactionToNearby = manager.beginTransaction()

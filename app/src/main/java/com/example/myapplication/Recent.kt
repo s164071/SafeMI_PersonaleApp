@@ -76,7 +76,7 @@ class Recent : Fragment() {
 
         fun showNext(nextFragment: Fragment) {
 
-            val manager = fragmentManager
+            val manager = parentFragmentManager
             if (manager != null) {
                 val transaction = manager.beginTransaction()
                 transaction.replace(R.id.fragtop, nextFragment)

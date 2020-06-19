@@ -13,7 +13,7 @@
         android:id="@+id/Top"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.08"
+        android:layout_weight="0.1"
         android:background="#FFFFFF"
         android:foregroundGravity="center_vertical"
         android:orientation="horizontal">
@@ -50,13 +50,24 @@
             android:gravity="center_vertical"
             android:text="Logud"
             android:textSize="12dp" />
+
     </LinearLayout>
 
 
-    <FrameLayout
+    <View
+        android:id="@+id/horisontalline2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_gravity="center"
+        android:background="@color/temafarve"
+        android:visibility="visible"
+        tools:ignore="MissingConstraints" />
+
+    <LinearLayout
         android:id="@+id/frameLayout3"
-        android:layout_width="403dp"
-        android:layout_height="534dp">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -72,6 +83,35 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/avatars" />
+
+            <ImageView
+                android:id="@+id/navn"
+                android:layout_width="29dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/navn"
+                app:layout_constraintBottom_toTopOf="@+id/cpr"
+                app:layout_constraintEnd_toStartOf="@+id/patientinfoBox"
+                app:layout_constraintHorizontal_bias="0.529"
+                app:layout_constraintStart_toEndOf="@+id/patientPic"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/cpr"
+                android:layout_width="27dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="3dp"
+                android:src="@drawable/cpr"
+                app:layout_constraintBottom_toTopOf="@+id/horisontalline"
+                app:layout_constraintEnd_toStartOf="@+id/patientinfoBox2"
+                app:layout_constraintHorizontal_bias="0.529"
+                app:layout_constraintStart_toEndOf="@+id/patientPic"
+                app:layout_constraintTop_toBottomOf="@+id/navn" />
 
 
             <TextView
@@ -129,26 +169,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/horisontalline"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <View
-                android:id="@+id/horisontalline2"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_gravity="center"
-                android:background="@color/temafarve"
-                android:visibility="visible"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="1dp" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </FrameLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="9dp"
+        android:layout_height="0dp"
         android:layout_marginTop="2dp"
         android:layout_weight="0.1">
 

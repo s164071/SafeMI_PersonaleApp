@@ -67,8 +67,8 @@ class nearby : Fragment() {
 
 
         activity = getActivity() as MainActivity
-
-        beacon()
+        retrieveBeaconInformation()
+        //beacon()
         view?.findViewById<ImageView>(R.id.patientPic)?.setOnClickListener() {
             updateUI()
             // view.findViewById<TextView>(R.id.borger).setText(borgernavn)
@@ -78,7 +78,6 @@ class nearby : Fragment() {
 
         val recent : ImageButton = view.findViewById(R.id.recent)
         recent.setOnClickListener() {
-
             val recent: Fragment = transferInformationToNextFragment(patientinfoBox, patientinfoBox2, patientPic)
             showRecent(recent)
         }
@@ -118,6 +117,7 @@ class nearby : Fragment() {
 
                     keineborgere.visibility = View.GONE
                     horisontalline.visibility = View.VISIBLE
+
                     navn.visibility = View.VISIBLE
                     cpr.visibility = View.VISIBLE
                     patientPic.visibility = View.VISIBLE
@@ -205,7 +205,7 @@ class nearby : Fragment() {
 
         //anvender TAG til at finde tilknyttede uuid og bruger derefter retrievePersonalInformation til at udtrække navn og cpr
         private fun retrieveBeaconInformation() {
-            FirebaseDatabase.getInstance().getReference().child("ibeacon").child(borgernavn)
+            FirebaseDatabase.getInstance().getReference().child("ibeacon")//.child(borgernavn)
 
                 .addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(databaseError: DatabaseError) {
@@ -288,7 +288,7 @@ class nearby : Fragment() {
 
     fun showRecent(nextFragment : Fragment){
 
-        val manager = fragmentManager
+        val manager = parentFragmentManager
         if (manager != null) {
             val transaction = manager.beginTransaction()
             transaction.replace(R.id.fragtop, nextFragment)
