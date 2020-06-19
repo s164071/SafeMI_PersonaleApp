@@ -1,5 +1,7 @@
 package com.example.myapplication.person
 
+import android.Manifest
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,8 +10,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.view.inputmethod.InputMethodManager
 import com.estimote.coresdk.cloud.model.User
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
@@ -21,26 +25,38 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 
+
+import androidx.fragment.app.activityViewModels
+import kotlinx.android.synthetic.main.fragment_person.*
+
 class Person : Fragment() {
     //val fragment_nearby = nearby()
 
     private lateinit var activity: MainActivity
     private val logtag = Person::class.simpleName
-    private lateinit var database:DatabaseReference
-    private lateinit var mystorage:FirebaseStorage
-    private lateinit var auth:FirebaseAuth
-    //private val model:PersonViewModel by activityViewModels()
-
+    private lateinit var database: DatabaseReference
+    private lateinit var mystorage: FirebaseStorage
+    private lateinit var auth: FirebaseAuth
+    private val model: PersonViewModel by activityViewModels()
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        auth=FirebaseAuth.getInstance()
+
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_person, container, false)
+        //Forsøger at hente beacon id og user...
+        //setResultListener("requestKey") { key, bundle ->
+            // string user skal overføres fra nearby til denne
+            //val current = bundle.getString("bundleKey")
+            // Do something with the result...
+        //}
 
-        //activity = getActivity() as MainActivity
+
+
 
         return view
     }
@@ -50,7 +66,7 @@ class Person : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //view?.findViewById<ImageView>(R.id.back_from_patientinfo)?.setOnClickListener() {
-            //updateUI()
+        //updateUI()
         //}
         auth = FirebaseAuth.getInstance()
         database = Firebase.database.reference
@@ -63,47 +79,22 @@ class Person : Fragment() {
         val list: RecyclerView = view.findViewById(R.id.home_RecyclerView)
         list.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
         list.adapter = homeListAdaptor
-    }
 
 
-    private fun updateUI(){
-//Denne skal føre brugeren tilbage til nearby fragment, mangler noget...
-        Log.d(logtag, "Hej nu kaldes updateUI")
-        val manager = fragmentManager
-        if(manager!=null) {
-
-            val transactionToNearby = manager.beginTransaction()
-            //transactionToNearby.replace(R.id.fragtop, fragment_nearby)
-            transactionToNearby.addToBackStack(null)
-            transactionToNearby.commit()
-
-        } else{
-            Toast.makeText(activity,"Fejl kunne ikke overføre bruger", Toast.LENGTH_SHORT
-            ).show()       }
-    }
-
-
-
-    /*download(userId) {
-        val user = User(name = dataSnapshot.child("navn").getValue(true).toString(), cpr = dataSnapshot.child("persId").getValue(true).toString(), medicines = dataSnapshot.child("Medicin").value.toString()
-            .getFirebaseList(), donor = dataSnapshot.child("Donor").getValue(true).toString(), allergies = dataSnapshot.child("Allergier").value.toString()
-            .getFirebaseList(), others = dataSnapshot.child("Andet").value.toString().getFirebaseList(), image = it, emergencies = getEmengencyFirebaseList(
-            dataSnapshot.child("Kontaktperson").child("navn").value.toString(),
-            dataSnapshot.child("Kontaktperson").child("nummer").value.toString()
-        ))*/
-
-
-        /*model.getHomeData().observe(viewLifecycleOwner, Observer {
+        model.getHomeData().observe(viewLifecycleOwner, Observer {
             it ?: return@Observer
 
             homeListAdaptor.list.clear()
-            Log.d(logtag,"elements: ${it.elements}")
+            Log.d(logtag, "elementer ${it.elements}")
             homeListAdaptor.list.addAll(it.elements)
             homeListAdaptor.notifyDataSetChanged()
-            Log.d(logtag, "in observe")
-
+            Log.d(logtag, " observere for ændringer")
             view.findViewById<ImageView>(R.id.home_ProfilePic).setImageBitmap(it.profilePicture)
-        })*/
+
+        })
+    }
+
+
 
 }
 
