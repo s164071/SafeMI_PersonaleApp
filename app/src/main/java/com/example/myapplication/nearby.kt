@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
@@ -27,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_nearby.*
+import kotlinx.android.synthetic.main.fragment_person.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 
@@ -68,31 +70,11 @@ class nearby : Fragment() {
         // view.findViewById<TextView>(R.id.borger).setText(borgernavn)
 
         // borger.text= borgernavn
-        val recent : ImageButton = view.findViewById(R.id.recent)
-        recent.setOnClickListener(){
-            var bundle : Bundle = Bundle()
-            val recentFragment : Recent = Recent()
 
-            bundle.putString("name", patientinfoBox.text.toString())
-            bundle.putString("cpr", patientinfoBox.text.toString())
-
-            val image = patientPic.drawToBitmap()
-
-            var bs: ByteArrayOutputStream = ByteArrayOutputStream()
-            image.compress(Bitmap.CompressFormat.PNG, 50, bs)
-
-            bundle.putByteArray("ProfilePic",bs.toByteArray())
-
-            recentFragment.arguments=bundle
-
-            val manager = fragmentManager
-            if (manager != null) {
-                val transaction = manager.beginTransaction()
-                transaction.replace(R.id.fragtop, recentFragment)
-                transaction.addToBackStack(null)
-                transaction.commit()
-            }
-
+        val recent : ImageButton = view!!.findViewById(R.id.recent)
+        recent?.setOnClickListener(){
+          val recent : Fragment = transferInformationToNextFragment(patientinfoBox,patientinfoBox2,patientPic)
+            showRecent(recent)
         }
 
 
@@ -298,7 +280,36 @@ class nearby : Fragment() {
             ).show()       }
     }
 
+    fun showRecent(nextFragment : Fragment){
 
+            val manager = fragmentManager
+            if (manager != null) {
+                val transaction = manager.beginTransaction()
+                transaction.replace(R.id.fragtop, nextFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }
+
+
+    }
+
+    fun transferInformationToNextFragment(textViewName: TextView, textViewCPR: TextView, imageViewProfilePic : ImageView) : Fragment{
+
+
+        var bundle: Bundle = Bundle()
+
+        bundle.putString("name", textViewName.text.toString())
+        bundle.putString("cpr", textViewCPR.text.toString())
+
+        val image = imageViewProfilePic.drawToBitmap()
+        var bs: ByteArrayOutputStream = ByteArrayOutputStream()
+        image.compress(Bitmap.CompressFormat.PNG, 50, bs)
+
+        bundle.putByteArray("ProfilePic", bs.toByteArray())
+        val recentFragment : Recent = Recent()
+        recentFragment.arguments = bundle
+      return recentFragment
+    }
 
 }
 
