@@ -36,12 +36,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-
-
         <TextView
             android:id="@+id/home_headline"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_width="269dp"
+            android:layout_height="54dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="30dp"
@@ -76,6 +74,20 @@
                 android:src="@drawable/basic_picture" />
 
         </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/backfromPTinformationer"
+            android:layout_width="58dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="184dp"
+            android:src="@drawable/goback"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/home_headline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

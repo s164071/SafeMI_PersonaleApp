@@ -67,11 +67,6 @@ class nearby : Fragment() {
         beacon()
         view?.findViewById<ImageView>(R.id.patientPic)?.setOnClickListener() {
             updateUI()
-            // view.findViewById<TextView>(R.id.borger).setText(borgernavn)
-
-            // borger.text= borgernavn
-
-
         }
         return view
     }
