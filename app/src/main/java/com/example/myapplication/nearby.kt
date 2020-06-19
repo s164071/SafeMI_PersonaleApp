@@ -15,10 +15,8 @@ import android.graphics.BitmapFactory
 import android.nfc.Tag
 import android.os.Message
 import android.util.*
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.core.view.drawToBitmap
 import com.estimote.coresdk.common.internal.utils.L
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
 import com.estimote.proximity_sdk.api.ProximityZoneContext
@@ -34,6 +32,7 @@ import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_nearby.*
 import kotlinx.android.synthetic.main.fragment_nearby.view.*
+import java.io.ByteArrayOutputStream
 import java.io.File
 
 class nearby : Fragment() {
@@ -68,6 +67,15 @@ class nearby : Fragment() {
         activity = getActivity() as MainActivity
 
         beacon()
+
+        val recent : ImageButton = view!!.findViewById(R.id.recent)
+        recent.setOnClickListener() {
+
+            val recent: Fragment =
+                transferInformationToNextFragment(patientinfoBox, patientinfoBox2, patientPic)
+            showRecent(recent)
+        }
+
 
         // view.findViewById<TextView>(R.id.borger).setText(borgernavn)
 
@@ -207,7 +215,7 @@ class nearby : Fragment() {
 
     //anvender TAG til at finde tilknyttede uuid og bruger derefter retrievePersonalInformation til at udtrække navn og cpr
     private fun retrieveBeaconInformation() {
-        FirebaseDatabase.getInstance().getReference().child("ibeacon").child(borgernavn)
+        FirebaseDatabase.getInstance().getReference().child("ibeacon").child("Beacon413")
 
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -260,7 +268,7 @@ class nearby : Fragment() {
         }
     }
 
-     fun updateUI(user:String){
+    fun updateUI(user:String){
 
         Log.d(logTags, "Hej dette er brugeren der bliver ført videre " + user)
         val manager = fragmentManager
@@ -277,6 +285,40 @@ class nearby : Fragment() {
     }
 
 
+    fun showRecent(nextFragment : Fragment){
+
+        val manager = fragmentManager
+        if (manager != null) {
+            val transaction = manager.beginTransaction()
+            transaction.replace(R.id.fragtop, nextFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
+
+    }
+
+    fun transferInformationToNextFragment(textViewName: TextView, textViewCPR: TextView, imageViewProfilePic : ImageView) : Fragment{
+
+
+        var bundle: Bundle = Bundle()
+
+        bundle.putString("name", textViewName.text.toString())
+        bundle.putString("cpr", textViewCPR.text.toString())
+
+        val image = imageViewProfilePic.drawToBitmap()
+        var bs: ByteArrayOutputStream = ByteArrayOutputStream()
+        image.compress(Bitmap.CompressFormat.PNG, 50, bs)
+
+        bundle.putByteArray("ProfilePic", bs.toByteArray())
+        val recentFragment : Recent = Recent()
+        recentFragment.arguments = bundle
+        return recentFragment
+    }
 
 }
+
+
+
+
 
