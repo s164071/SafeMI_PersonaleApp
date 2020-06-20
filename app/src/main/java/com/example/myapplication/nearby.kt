@@ -73,7 +73,7 @@ class nearby : Fragment() {
 
 
         activity = getActivity() as MainActivity
-        //retrieveBeaconInformation()
+       // retrieveBeaconInformation()
         beacon()
         view?.findViewById<ImageView>(R.id.patientPic)?.setOnClickListener() {
            bundle=transferInformationToNextFragment(patientinfoBox, patientinfoBox2, patientPic)
