@@ -61,6 +61,7 @@ class LogInd : Fragment() {
 
 
     fun signInwithEmail() {
+
         if (email.text.toString().isEmpty()) {
             email.error = "Indtast en emailadresse"
             email.requestFocus()
