@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">SafeMi Personale App</string>
     <string name="glemt_password">Glemt password?</string>
     <string name="photo">savemi.png</string>
     <string name="email">Email</string>

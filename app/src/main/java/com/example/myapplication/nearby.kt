@@ -15,6 +15,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.drawToBitmap
 import androidx.fragment.app.activityViewModels
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
@@ -29,6 +30,8 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_beacon_oversigt.*
 import kotlinx.android.synthetic.main.fragment_nearby.*
+import kotlinx.android.synthetic.main.fragment_nearby.horisontalline
+import kotlinx.android.synthetic.main.fragment_recent.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 
@@ -40,12 +43,14 @@ class nearby : Fragment() {
     private var borgernavn = ""
     private var value = ""
     private var key = ""
+    private lateinit var bundle: Bundle
     private lateinit var mystorage: FirebaseStorage
     private lateinit var auth: FirebaseAuth
     var bitmap: Bitmap? = null
     private var user = ""
     private val model: PersonViewModel by activityViewModels()
     val fragment_person = Person()
+    var information=false
 
     ///////////////////////////////////////
 
@@ -71,16 +76,24 @@ class nearby : Fragment() {
         //retrieveBeaconInformation()
         beacon()
         view?.findViewById<ImageView>(R.id.patientPic)?.setOnClickListener() {
+           bundle=transferInformationToNextFragment(patientinfoBox, patientinfoBox2, patientPic)
             updateUI()
-            // view.findViewById<TextView>(R.id.borger).setText(borgernavn)
 
-            // borger.text= borgernavn
         }
 
         val recent : ImageButton = view.findViewById(R.id.recent)
+
         recent.setOnClickListener() {
-            val recent: Fragment = transferInformationToNextFragment(patientinfoBox, patientinfoBox2, patientPic)
-            showRecent(recent)
+
+
+
+            if  (this::bundle.isInitialized && information==true) {
+                showRecent(bundle)
+            }else {
+                bundle=Bundle()
+                showRecent(bundle )
+            }
+
         }
         return view
     }
@@ -291,24 +304,28 @@ class nearby : Fragment() {
         }
 
 
-    fun showRecent(nextFragment : Fragment){
-
+    fun showRecent(bundle: Bundle){
+        val recentFragmentos : Recent = Recent()
         val manager = parentFragmentManager
+        if (bundle!=null){
+            recentFragmentos.arguments = bundle
+        }
         if (manager != null) {
             val transaction = manager.beginTransaction()
-            transaction.replace(R.id.fragtop, nextFragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
+
+                transaction.replace(R.id.fragtop, recentFragmentos)
+                transaction.addToBackStack(null)
+                transaction.commit()
         }
 
 
     }
 
-    fun transferInformationToNextFragment(textViewName: TextView, textViewCPR: TextView, imageViewProfilePic : ImageView) : Fragment{
+    fun transferInformationToNextFragment(textViewName: TextView, textViewCPR: TextView, imageViewProfilePic : ImageView): Bundle{
 
+        information=true
 
         var bundle: Bundle = Bundle()
-
 
         //    Log.d(logTags, "Dette er navn ": textViewName.text.toString() )
         bundle.putString("name", patientinfoBox.text.toString())
@@ -319,10 +336,11 @@ class nearby : Fragment() {
         image.compress(Bitmap.CompressFormat.PNG, 50, bs)
 
         bundle.putByteArray("ProfilePic", bs.toByteArray())
-        val recentFragment : Recent = Recent()
-        recentFragment.arguments = bundle
-        return recentFragment
+    return bundle
     }
+
+
+
 
 }
 

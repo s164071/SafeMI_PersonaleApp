@@ -8,7 +8,8 @@
     android:background="#FFFFFF"
     android:gravity="bottom"
     android:orientation="vertical"
-    tools:context=".Recent">
+    tools:context=".Recent"
+    android:id="@+id/fragment_recent">
 
     <LinearLayout
         android:id="@+id/linearLayout7"

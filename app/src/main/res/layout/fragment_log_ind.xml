@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/frontpage"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:scrollbarThumbHorizontal="@color/temafarve"
     tools:context=".LogInd">
 
@@ -39,6 +41,7 @@
                     android:layout_width="205dp"
                     android:layout_height="0dp"
                     android:layout_weight="0.5"
+                    android:ems="10"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:longClickable="false"

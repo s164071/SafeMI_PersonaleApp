@@ -39,12 +39,12 @@ class Recent : Fragment() {
             showNext(personFragment)
         }
 
-        if (arguments != null) {
-            borgere.visibility = View.GONE
-            Informationer.visibility = View.VISIBLE
             val navn = requireArguments().getString("name")
             val cpr: String? = requireArguments().getString("cpr")
-            if (navn != "" && cpr != "") {
+            val b = requireArguments().getByteArray("ProfilePic")
+            if (navn != null && cpr != null && b!=null ) {
+                borgere.visibility = View.GONE
+                Informationer.visibility = View.VISIBLE
                 Log.d(TAG, "Jeg har kørt dette kode")
                 var navnefeldt: TextView = view.findViewById(R.id.navnefeldt)
                 var cprfeldt: TextView = view.findViewById(R.id.cprfeldt)
@@ -55,35 +55,34 @@ class Recent : Fragment() {
                 cprfeldt.text = cpr
 
 
-                var b = requireArguments().getByteArray("ProfilePic")
-                if (b != null) {
                     var profilepic: Bitmap = BitmapFactory.decodeByteArray(b, 0, b.size)
-
                     var billede: ImageView = view.findViewById(R.id.Profile)
                     billede.setImageBitmap(profilepic)
-                } }else {
-                    Log.d(TAG, "Jeg er her og viser blot felt")
-                    borgere.visibility = View.VISIBLE
-                    Informationer.visibility = View.GONE
-                }
+
+            } else {
+                Log.d(TAG, "Jeg er her og viser blot felt")
+                borgere.visibility = View.VISIBLE
+                val Informationer: LinearLayout = view.findViewById(R.id.Informationer)
+                Informationer.visibility = View.GONE
 
             }
 
-            return view
 
+        return view
+
+    }
+
+    fun showNext(nextFragment: Fragment) {
+
+        val manager = parentFragmentManager
+        if (manager != null) {
+            val transaction = manager.beginTransaction()
+            transaction.replace(R.id.fragtop, nextFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
 
-        fun showNext(nextFragment: Fragment) {
 
-            val manager = parentFragmentManager
-            if (manager != null) {
-                val transaction = manager.beginTransaction()
-                transaction.replace(R.id.fragtop, nextFragment)
-                transaction.addToBackStack(null)
-                transaction.commit()
-            }
-
-
-        }
+    }
 
 }

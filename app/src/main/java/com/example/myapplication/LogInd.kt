@@ -99,7 +99,7 @@ class LogInd : Fragment() {
 
     fun updateUI(currentUser:FirebaseUser?){
 
-        val manager = fragmentManager
+        val manager = parentFragmentManager
 
         if (checkInternetAccess(activity)==false) {
             Toast.makeText(
