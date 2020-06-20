@@ -17,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.drawToBitmap
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
 import com.example.myapplication.DataModel.User
@@ -73,13 +74,13 @@ class nearby : Fragment() {
 
 
         activity = getActivity() as MainActivity
-       // retrieveBeaconInformation()
+        //retrieveBeaconInformation()
         beacon()
         view?.findViewById<ImageView>(R.id.patientPic)?.setOnClickListener() {
-           bundle=transferInformationToNextFragment(patientinfoBox, patientinfoBox2, patientPic)
+            if (keineborgere.isVisible==false){
             updateUI()
-
-        }
+            bundle=transferInformationToNextFragment(patientinfoBox, patientinfoBox2, patientPic)
+        }}
 
         val recent : ImageButton = view.findViewById(R.id.recent)
 
@@ -91,7 +92,7 @@ class nearby : Fragment() {
                 showRecent(bundle)
             }else {
                 bundle=Bundle()
-                showRecent(bundle )
+                showRecent(bundle)
             }
 
         }

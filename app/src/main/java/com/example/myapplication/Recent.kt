@@ -35,8 +35,12 @@ class Recent : Fragment() {
         }
 
         Informationer.setOnClickListener() {
-            val personFragment: Person = Person()
-            showNext(personFragment)
+            if (requireArguments().getString("name")!=null) {
+
+                val personFragment: Person = Person()
+                showNext(personFragment)
+            }
+
         }
 
             val navn = requireArguments().getString("name")
