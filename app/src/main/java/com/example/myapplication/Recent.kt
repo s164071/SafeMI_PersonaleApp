@@ -64,7 +64,6 @@ class Recent : Fragment() {
                 } }else {
                     Log.d(TAG, "Jeg er her og viser blot felt")
                     borgere.visibility = View.VISIBLE
-                    val Informationer: LinearLayout = view.findViewById(R.id.Informationer)
                     Informationer.visibility = View.GONE
                 }
 

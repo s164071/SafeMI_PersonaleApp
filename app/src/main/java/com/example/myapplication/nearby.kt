@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.core.view.drawToBitmap
 import androidx.fragment.app.activityViewModels
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory
+import com.example.myapplication.DataModel.User
 import com.example.myapplication.person.Person
 import com.example.myapplication.person.PersonViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -86,7 +87,6 @@ class nearby : Fragment() {
 
 
         private fun beacon() {
-
 
             //1. Opsætter Estimote credentials for forbindelse til estimote cloud
             val cloudCredentials = EstimoteCloudCredentials(
