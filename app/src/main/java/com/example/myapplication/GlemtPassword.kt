@@ -31,7 +31,7 @@ class GlemtPassword : Fragment() {
         sendEmail.setOnClickListener() {
             resetPasswordByEmail()
 
-            //Switch to fragment Glemt password
+            //Switch to fragment Login
         }
             val tilbageknap: ImageButton = view.findViewById(R.id.TilbageKnap_GlemtPassword)
             tilbageknap.setOnClickListener() {
@@ -49,13 +49,13 @@ class GlemtPassword : Fragment() {
     fun resetPasswordByEmail(){
 
         if (Email_GlemtPassword.text.toString().isEmpty()) {
-            Email_GlemtPassword.error = "Indtast email"
+            Email_GlemtPassword.error = "Indtast en emailadresse"
             Email_GlemtPassword.requestFocus()
             return
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(Email_GlemtPassword.text.toString()).matches()) {
-            Email_GlemtPassword.error = "Den indtastede email er ikke en email"
+            Email_GlemtPassword.error = "Indtast en valid emailadresse"
             Email_GlemtPassword.requestFocus()
             return
         }

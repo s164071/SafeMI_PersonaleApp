@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -9,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -94,19 +97,32 @@ class LogInd : Fragment() {
             }
     }
 
-     private fun updateUI(currentUser:FirebaseUser?){
+    fun updateUI(currentUser:FirebaseUser?){
 
-        val manager = parentFragmentManager
-        if(manager!=null && currentUser!=null) {
+        val manager = fragmentManager
 
+        if (checkInternetAccess(activity)==false) {
+            Toast.makeText(
+                activity,
+                "Check at dit internet er slået til, og prøv igen",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else if(manager!=null && currentUser!=null) {
             val transactionToNearby = manager.beginTransaction()
             transactionToNearby.replace(R.id.fragtop, fragment_nearby)
             transactionToNearby.addToBackStack(null)
             transactionToNearby.commit()
+        }else{
+            Toast.makeText(activity, "Ingen brugere fundet med de indtastede loginoplysninger", Toast.LENGTH_SHORT).show()
+        }
 
-        } else{
-            Toast.makeText(activity,"Fejl ved login", Toast.LENGTH_SHORT
-            ).show()       }
+    }
+
+    fun checkInternetAccess(activity: AppCompatActivity):Boolean{
+        val connectivityManager=activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo=connectivityManager.activeNetworkInfo
+        return  networkInfo!=null && networkInfo.isConnected
+        //https://stackoverflow.com/questions/51141970/check-internet-connectivity-android-in-kotlin
     }
 }
 
