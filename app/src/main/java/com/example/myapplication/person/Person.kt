@@ -1,13 +1,10 @@
 package com.example.myapplication.person
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
@@ -15,16 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import androidx.fragment.app.activityViewModels
-import com.example.myapplication.Recent
-import kotlinx.android.synthetic.main.fragment_nearby.*
-import kotlinx.android.synthetic.main.fragment_person.*
-import java.io.ByteArrayOutputStream
 
 class Person : Fragment() {
 
@@ -77,6 +69,7 @@ class Person : Fragment() {
             homeListAdaptor.notifyDataSetChanged()
             Log.d(logtag, " observere for ændringer")
 
+            view.findViewById<ImageView>(R.id.person_ProfilePic).setImageBitmap(it.profilePicture)
 
         })
 

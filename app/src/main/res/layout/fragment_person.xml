@@ -66,7 +66,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/home_ProfilePic"
+                android:id="@+id/person_ProfilePic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:cropToPadding="false"

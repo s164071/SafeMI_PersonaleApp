@@ -72,10 +72,10 @@ class nearby : Fragment() {
 
         val view: View = inflater.inflate(R.layout.fragment_nearby, container, false)
 
-
         activity = getActivity() as MainActivity
         //retrieveBeaconInformation()
         beacon()
+
         view?.findViewById<ImageView>(R.id.patientPic)?.setOnClickListener() {
             if (keineborgere.isVisible==false){
             updateUI()
@@ -85,7 +85,6 @@ class nearby : Fragment() {
         val recent : ImageButton = view.findViewById(R.id.recent)
 
         recent.setOnClickListener() {
-
 
 
             if  (this::bundle.isInitialized && information==true) {
@@ -240,10 +239,11 @@ class nearby : Fragment() {
                         Log.d(logTags, "dette er brugeren i retrievebeaconInformation" + user)
 
                         if (user != "") {
+                            download(user) //henter billede med det pågældende uid
                             retrievePersonalInformation(user)
                             //Obs måske skal den fjernes igen
                             model.homeUpdateRepo(user)
-                            download(user) //henter billede med det pågældende uid
+
 
                         }
 
@@ -259,7 +259,7 @@ class nearby : Fragment() {
             auth = FirebaseAuth.getInstance()
             mystorage = FirebaseStorage.getInstance()
             val storageRef = mystorage.reference
-            //val user = auth.currentUser?.uid.toString()
+
 
             Log.i(logTags, "Bruger downloadder billede: " + user)
 
