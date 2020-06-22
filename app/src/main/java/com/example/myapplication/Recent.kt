@@ -31,6 +31,7 @@ class Recent : Fragment() {
 
 
         home.setOnClickListener() {
+            Log.d(TAG,"Der bliver trykket på home knappen fra recentsiden")
             parentFragmentManager.popBackStack()
         }
 
@@ -49,12 +50,12 @@ class Recent : Fragment() {
             if (navn != null && cpr != null && b!=null ) {
                 borgere.visibility = View.GONE
                 Informationer.visibility = View.VISIBLE
-                Log.d(TAG, "Jeg har kørt dette kode")
+                Log.d(TAG, "Der overføres data fra person siden")
                 var navnefeldt: TextView = view.findViewById(R.id.navnefeldt)
                 var cprfeldt: TextView = view.findViewById(R.id.cprfeldt)
 
 
-                Log.d(TAG, "Dette er " + navn)
+                Log.d(TAG, "Dette er " + navn+ "På recent siden")
                 navnefeldt.text = navn
                 cprfeldt.text = cpr
 
