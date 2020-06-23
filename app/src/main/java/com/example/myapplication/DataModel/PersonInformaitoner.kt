@@ -26,7 +26,7 @@ data class User(
 )
 
 
-//Denne metode skal erstattes af noget andet
+
 interface UserInterface {
     fun patientfraDatabase(userId: String, onLogin: ((User?) -> Unit))
 
@@ -110,7 +110,7 @@ fun upDataRepo(userID: String, onLogin: ((User?) -> Unit)) {
                         .getFirebaseList(),
                     others = dataSnapshot.child("Andet").value.toString().getFirebaseList(),
                     image = it,
-                    emergencies = getEmengencyFirebaseList(
+                    emergencies = getEmengencyList(
                         dataSnapshot.child("Kontaktperson").child("navn").value.toString(),
                         dataSnapshot.child("Kontaktperson").child("nummer").value.toString()
                     )
@@ -169,7 +169,7 @@ fun upDataRepo(userID: String, onLogin: ((User?) -> Unit)) {
 
         }
 
-        fun getEmengencyFirebaseList(navn: String, tlf: String): List<String> {
+        fun getEmengencyList(navn: String, tlf: String): List<String> {
 
             val emptyList = emptyList<String>()
             val nameList = navn.removePrefix("[").removeSuffix("]").split(",")

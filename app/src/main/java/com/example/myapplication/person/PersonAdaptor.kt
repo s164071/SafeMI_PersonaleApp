@@ -10,7 +10,7 @@ import com.example.myapplication.R
 
 class PersonAdaptor(): RecyclerView.Adapter<PersonAdaptor.ViewHolder>() {
 
-    val list = mutableListOf<HomeDataElement>()
+    val list = mutableListOf<PersonDataElement>()
 
    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
        val text:TextView = itemView.findViewById(R.id.home_item_text)
@@ -37,36 +37,36 @@ class PersonAdaptor(): RecyclerView.Adapter<PersonAdaptor.ViewHolder>() {
 
 
         when(element.type){
-            HomeDataType.NAME -> {
+            PersonDataType.NAME -> {
                 holder.title.text = "Navn"
 
 
             }
-            HomeDataType.CPR -> {
+            PersonDataType.CPR -> {
                 holder.title.text = "CPR"
 
             }
-            HomeDataType.BLOD -> {
+            PersonDataType.BLOD -> {
                 holder.title.text = "Blodtype"
 
             }
-            HomeDataType.MEDICIN -> {
+            PersonDataType.MEDICIN -> {
                 holder.title.text = "Medicin"
 
             }
-            HomeDataType.ALLERGIE -> {
+            PersonDataType.ALLERGIE -> {
                 holder.title.text = "Allergi"
 
             }
-            HomeDataType.DONER -> {
+            PersonDataType.DONER -> {
                 holder.title.text = "Doner"
 
             }
-            HomeDataType.EMERGENCY -> {
-                holder.title.text = "Nød kontak information"
+            PersonDataType.EMERGENCY -> {
+                holder.title.text = "Nød kontakt information"
 
             }
-            HomeDataType.OTHER -> {
+            PersonDataType.OTHER -> {
                 holder.title.text = "Sygdomstilstand og andet"
 
             }

@@ -53,20 +53,20 @@ class Person : Fragment() {
 
         database = Firebase.database.reference
 
-        val homeListAdaptor = PersonAdaptor()
-        Log.d(logtag, "$homeListAdaptor")
+        val personListAdaptor = PersonAdaptor()
+        Log.d(logtag, "$personListAdaptor")
         val list: RecyclerView = view.findViewById(R.id.home_RecyclerView)
         list.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
-        list.adapter = homeListAdaptor
+        list.adapter = personListAdaptor
 
 
-        model.getHomeData().observe(viewLifecycleOwner, Observer {
+        model.getPersonData().observe(viewLifecycleOwner, Observer {
             it ?: return@Observer
 
-            homeListAdaptor.list.clear()
+            personListAdaptor.list.clear()
             Log.d(logtag, "elementer ${it.elements}")
-            homeListAdaptor.list.addAll(it.elements)
-            homeListAdaptor.notifyDataSetChanged()
+            personListAdaptor.list.addAll(it.elements)
+            personListAdaptor.notifyDataSetChanged()
             Log.d(logtag, " observere for ændringer")
 
             view.findViewById<ImageView>(R.id.person_ProfilePic).setImageBitmap(it.profilePicture)

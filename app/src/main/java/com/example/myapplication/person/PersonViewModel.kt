@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.example.myapplication.DataModel.PersonInformaitoner
 import com.google.firebase.auth.FirebaseUser
 
-enum class HomeDataType {
+enum class  PersonDataType {
     NAME,
     CPR,
     BLOD,
@@ -20,15 +20,15 @@ enum class HomeDataType {
     OTHER
 }
 
-data class HomeDataElement (
+data class PersonDataElement (
     val text: String,
-    val type: HomeDataType
+    val type:  PersonDataType
 
 )
 
-data class HomeData(
+data class PersonData(
     val profilePicture: Bitmap?,
-    val elements: List<HomeDataElement>
+    val elements: List<PersonDataElement>
     //val authentication: FirebaseUser?
 )
 
@@ -36,28 +36,28 @@ class PersonViewModel: ViewModel() {
     private val logtag = PersonViewModel::class.simpleName
     private val repo = PersonInformaitoner.getUserRepo()
     private val modelViewHomeLiveData by lazy {
-        MutableLiveData<HomeData?>()
+        MutableLiveData<PersonData?>()
     }
 
-    fun getHomeData(): LiveData<HomeData?> = modelViewHomeLiveData
+    fun getPersonData(): LiveData<PersonData?> = modelViewHomeLiveData
 
-    fun homeUpdateRepo(currentUser: String) {
+    fun personUpdateRepo(currentUser: String) {
 
         repo.upDataRepo(currentUser) { user ->
             if (user == null) {
                 modelViewHomeLiveData.postValue(null)
             } else {
                 Log.d(logtag, "user: $user")
-                val list = mutableListOf<HomeDataElement>()
-                list.add(HomeDataElement(user.name, HomeDataType.NAME))
-                list.add(HomeDataElement(user.cpr, HomeDataType.CPR))
-                list.add(HomeDataElement(user.donor, HomeDataType.DONER))
-                list.add(HomeDataElement(user.blodtype, HomeDataType.BLOD))
-                list.addAll(user.medicines.map { HomeDataElement(it, HomeDataType.MEDICIN) })
-                list.addAll(user.allergies.map { HomeDataElement(it, HomeDataType.ALLERGIE) })
-                list.addAll(user.emergencies.map { HomeDataElement(it, HomeDataType.EMERGENCY) })
-                list.addAll(user.others.map { HomeDataElement(it, HomeDataType.OTHER) })
-                modelViewHomeLiveData.postValue(HomeData(user.image, list))
+                val list = mutableListOf<PersonDataElement>()
+                list.add(PersonDataElement(user.name,  PersonDataType.NAME))
+                list.add(PersonDataElement(user.cpr,  PersonDataType.CPR))
+                list.add(PersonDataElement(user.donor,  PersonDataType.DONER))
+                list.add(PersonDataElement(user.blodtype,  PersonDataType.BLOD))
+                list.addAll(user.medicines.map { PersonDataElement(it, PersonDataType.MEDICIN) })
+                list.addAll(user.allergies.map { PersonDataElement(it,  PersonDataType.ALLERGIE) })
+                list.addAll(user.emergencies.map { PersonDataElement(it,  PersonDataType.EMERGENCY) })
+                list.addAll(user.others.map { PersonDataElement(it,  PersonDataType.OTHER) })
+                modelViewHomeLiveData.postValue(PersonData(user.image, list))
             }
         }
     }

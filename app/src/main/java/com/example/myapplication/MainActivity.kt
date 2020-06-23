@@ -6,16 +6,13 @@ import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : AppCompatActivity() {
-  //  lateinit var fraglogin: LogInd
-    private lateinit var auth: FirebaseAuth
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        auth = FirebaseAuth.getInstance()
+
 
        val fraglogin = LogInd()
         val manager = supportFragmentManager
