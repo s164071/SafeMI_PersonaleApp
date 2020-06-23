@@ -102,68 +102,29 @@ import kotlinx.android.synthetic.main.fragment_nearby.*
 import kotlinx.android.synthetic.main.fragment_nearby.horisontalline
 
 
-import kotlinx.android.synthetic.main.fragment_recent.*
-
-
 import java.io.ByteArrayOutputStream
-
 
 import java.io.File
 
 
 
 
-
 class nearby : Fragment() {
 
-
-
-
-
     private lateinit var activity: MainActivity
-
-
     private var observationsHandler: ProximityObserver.Handler? = null
-
-
     private val logTags = MainActivity::class.simpleName
-
-
     private var borgernavn = ""
-
-
     private var value = ""
-
-
     private var key = ""
-
-
     private lateinit var bundle: Bundle
-
-
     private lateinit var mystorage: FirebaseStorage
-
-
     private lateinit var auth: FirebaseAuth
-
-
     var bitmap: Bitmap? = null
-
-
     private var user = ""
-
-
     private val model: PersonViewModel by activityViewModels()
-
-
     val fragment_person = Person()
-
-
     var information=false
-
-
-
-
 
     ///////////////////////////////////////
 
@@ -232,16 +193,7 @@ class nearby : Fragment() {
         }
 
 
-
-
-
-
-
     val recent : ImageButton = view.findViewById(R.id.recent)
-
-
-
-
 
 
     recent.setOnClickListener() {
@@ -273,12 +225,6 @@ class nearby : Fragment() {
 
         }
 
-
-
-
-
-
-
     }
 
 
@@ -288,13 +234,7 @@ class nearby : Fragment() {
 }
 
 
-
 private fun beacon() {
-
-
-
-
-
     //1. Opsætter Estimote credentials for forbindelse til estimote cloud
 
 
@@ -318,165 +258,58 @@ private fun beacon() {
 
         ProximityObserverBuilder(activity.applicationContext, cloudCredentials)
 
-
             .withBalancedPowerMode()
-            .withEstimoteSecureMonitoringDisabled()
-            .withTelemetryReportingDisabled()
+            .withEstimoteSecureMonitoringDisabled() //add to reduce the number of BLE callbacks being registered in OS, thus reducing the possibility of Scan error 2
+            .withTelemetryReportingDisabled() // same as above
 
             .onError { throwable ->
-
-
                 Log.e("app", "proximity observer error: $throwable")
 
-
             }
-
-
             .build()
-
-
-
-
-
-
-
 
     //3. Definerer Proximity zone
 
-
-
-
-
     val venueZone = ProximityZoneBuilder()
 
-
         .forTag("patient1") //remember to change iBeaconTag for the right beacon
-
-
         .inNearRange()
 
-
-
-
-
         .onEnter { zoneContext ->
-
-
             borgernavn = zoneContext.tag
-
-
             Log.d(logTags, "Entered: " + borgernavn)
 
-
-
-
-
             keineborgere.visibility = View.GONE
-
-
             horisontalline.visibility = View.VISIBLE
-
-
-
-
-
             navn.visibility = View.VISIBLE
-
-
             cpr.visibility = View.VISIBLE
-
-
             patientPic.visibility = View.VISIBLE
 
-
             retrieveBeaconInformation()
-
-
-
-
-
         }
 
 
         .onExit { zoneContext ->
-
-
             Log.i(logTags, "Exited: " + borgernavn) //når bruger forlader zone
-
-
-
-
-
             patientinfoBox.text = ""
-
-
             patientinfoBox2.text = ""
-
-
-
-
-
             keineborgere.visibility = View.VISIBLE
-
-
             horisontalline.visibility = View.GONE
-
-
             navn.visibility = View.GONE
-
-
             cpr.visibility = View.GONE
-
-
             patientPic.visibility = View.GONE
-
-
-
-
-
-
-
-
         }
-
-
-
-
 
         .onContextChange { contexts ->
 
-
             for (context in contexts) {
-
-
                 key = "CPR"
-
-
                 value = context.attachments[key] ?: "kukuk"
-
-
-
-
-
                 val notNullPersons = contexts.filterNotNull()
-
-
-
-
-
             }
-
-
         }
 
-
         .build()
-
-
-
-
-
-
 
 
     //4. Lokationstilladelse + Starter Proximity observering
@@ -484,265 +317,100 @@ private fun beacon() {
 
     RequirementsWizardFactory
 
-
         .createEstimoteRequirementsWizard()
-
-
         .fulfillRequirements(activity,
 
-
             {
-
-
                 Log.i("app", "Krav opfyldt")
-
-
                 val observationsHandler =
-
-
                     proximityObserver.startObserving(venueZone) // onRequirementsFulfilled
-
-
             },
 
-
             { requirements ->
-
-
                 Log.e(
-
-
                     "app",
-
 
                     "Krav mangler - Scanning virker ikke: " + requirements   //onRequirementsMissing
 
-
                 )
-
-
             },
-
-
             { throwable ->
 
 
                 Log.e("app", "Fejl i krav: " + throwable) //onError
-
-
             })
 
-
-
-
-
 }
-
-
-
 
 
 //6. Stopper scanning
 
 
 override fun onDestroy() {
-
-
     observationsHandler?.stop()
-
-
     super.onDestroy()
 
-
-
-
-
 }
-
-
-
-
 
 override fun onResume() {
-
-
     beacon()
-
-
+    Log.d(logTags,"beacon() kaldes igen")
     super.onResume()
-
-
 }
-
-
-
-
 
 //fremsøger navn & cpr
 
-
 private fun retrievePersonalInformation(user: String) {
-
 
     Log.d(logTags, "Hej dette er brugeren i retrievePersonalinformation" + user)
 
-
-
-
-
     FirebaseDatabase.getInstance().getReference().child("users").child(user)
-
-
         .addValueEventListener(object : ValueEventListener {
-
-
-
-
-
             override fun onCancelled(databaseError: DatabaseError) {
-
-
                 Log.d(logTags, "Jeg har IKKE søgt " + user)
-
-
             }
-
-
-
-
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
 
                 var mapUser = dataSnapshot.value as Map<String, Any>
-
-
                 Log.d(logTags, "Jeg har søgt " + user)
-
-
                 patientinfoBox.text = mapUser["navn"].toString()
-
-
                 patientinfoBox2.text = "CPR: " + mapUser["persId"].toString()
-
-
-
-
 
             }
 
-
-
-
-
-
-
-
         })
 
-
-
-
-
 }
-
-
-
-
 
 //anvender TAG til at finde tilknyttede uuid og bruger derefter retrievePersonalInformation til at udtrække navn og cpr
 
 
 private fun retrieveBeaconInformation() {
 
-
     FirebaseDatabase.getInstance().getReference().child("ibeacon").child(borgernavn)
-
-
-
-
-
         .addValueEventListener(object : ValueEventListener {
-
-
             override fun onCancelled(databaseError: DatabaseError) {
-
-
-
-
-
             }
-
-
-
-
-
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-
-
-
-
                 var map = dataSnapshot.value as Map<String, Any>
-
-
-
-
-
                 var user = map["brugerUID"].toString()
-
-
-
-
-
-                Log.d(logTags, "dette er brugeren i retrievebeaconInformation" + user)
-
-
-
-
-
+                Log.d(logTags, "RetrievebeaconInformation" + user)
                 if (user != "") {
-
-
                     retrievePersonalInformation(user)
-
-
-                    //Obs måske skal den fjernes igen
-
-
                     model.homeUpdateRepo(user)
-
-
                     download(user) //henter billede med det pågældende uid
-
-
-
-
 
                 }
 
-
-
-
-
-
-
-
             }
-
-
-
-
 
         })
 
 
 }
-
-
-
-
-
 
 
 
@@ -758,78 +426,27 @@ private fun download(user: String) {
     mystorage = FirebaseStorage.getInstance()
 
 
-    val storageRef = mystorage.reference
-
-
-    //val user = auth.currentUser?.uid.toString()
-
-
-
-
-
-    Log.i(logTags, "Bruger downloadder billede: " + user)
-
-
-
-
-
-
+    Log.i(logTags, "Downloader billede: " + user)
 
 
     val ref = mystorage.reference.child("$user/image/ProfilePic.jpg")
-
-
-
-
-
-    val file = File.createTempFile("ProfilePic", "jpg")
-
-
-
-
+   val file = File.createTempFile("ProfilePic", "jpg")
 
     Log.d(logTags, "file $file")
-
-
     ref.getFile(file).addOnCompleteListener() { task ->
-
-
         if (task.isSuccessful) {
-
 
             bitmap = BitmapFactory.decodeFile(file.absolutePath)
 
-
             Log.d(logTags, "file path" + file.absolutePath)
 
-
-
-
-
-            patientPic.setImageBitmap(bitmap)
-
-
-
-
-
+             patientPic.setImageBitmap(bitmap)
             Log.d(logTags, "SUCCESS load and set profilepic")
-
-
-
-
-
         } else
-
 
             Log.d(logTags, "Failed to load and set profilepic $task")
 
-
-
-
-
     }
-
-
 }
 
 
@@ -839,47 +456,17 @@ private fun download(user: String) {
 private fun updateUI() {
 
 
-
-
-
-    Log.d(logTags, "Hej dette er brugeren der bliver ført videre " + user)
-
+    Log.d(logTags, "Du skrifter fragment " + user)
 
     val manager =parentFragmentManager
-
-
-
-
-
     if (manager != null) {
-
-
-
-
-
         val transactionToNearby = manager.beginTransaction()
-
-
         transactionToNearby.replace(R.id.fragtop, fragment_person)
-
-
         transactionToNearby.addToBackStack(null)
-
-
         transactionToNearby.commit()
-
-
     } else {
-
-
-
-
-
         Toast.makeText(
-
-
-            activity, "Fejl kunne ikke overføre bruger", Toast.LENGTH_SHORT
-
+                        activity, "Fejl kunne ikke overføre bruger", Toast.LENGTH_SHORT
 
         ).show()
 
@@ -893,47 +480,18 @@ private fun updateUI() {
 }
 
 
-
-
-
-
-
-
 fun showRecent(bundle: Bundle){
-
-
     val recentFragmentos : Recent = Recent()
-
-
     val manager = parentFragmentManager
-
-
     if (bundle!=null){
-
-
         recentFragmentos.arguments = bundle
-
-
     }
-
-
-    if (manager != null) {
-
-
-        val transaction = manager.beginTransaction()
-
-
-
-
-
-        transaction.replace(R.id.fragtop, recentFragmentos)
-
-
-        transaction.addToBackStack(null)
-
-
+        if (manager != null) {
+            Log.d(logTags,"Der ledes tilbage til tidligere fragment")
+                    val transaction = manager.beginTransaction()
+                    transaction.replace(R.id.fragtop, recentFragmentos)
+                transaction.addToBackStack(null)
         transaction.commit()
-
 
     }
 
@@ -953,47 +511,15 @@ fun showRecent(bundle: Bundle){
 fun transferInformationToNextFragment(textViewName: TextView, textViewCPR: TextView, imageViewProfilePic : ImageView): Bundle{
 
 
-
-
-
     information=true
-
-
-
-
-
     var bundle: Bundle = Bundle()
-
-
-
-
-
-    //    Log.d(logTags, "Dette er navn ": textViewName.text.toString() )
-
-
     bundle.putString("name", patientinfoBox.text.toString())
-
-
     bundle.putString("cpr", patientinfoBox2.text.toString())
-
-
-
-
-
     val image = imageViewProfilePic.drawToBitmap()
-
-
     var bs: ByteArrayOutputStream = ByteArrayOutputStream()
-
-
     image.compress(Bitmap.CompressFormat.PNG, 50, bs)
-
-
-
-
-
     bundle.putByteArray("ProfilePic", bs.toByteArray())
-
+Log.d(logTags,"der overføres informationer til næste fragment")
 
     return bundle
 

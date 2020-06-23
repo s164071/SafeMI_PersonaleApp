@@ -47,7 +47,7 @@ class PersonAdaptor(): RecyclerView.Adapter<PersonAdaptor.ViewHolder>() {
 
             }
             HomeDataType.BLOD -> {
-                holder.title.text = "Blod type"
+                holder.title.text = "Blodtype"
 
             }
             HomeDataType.MEDICIN -> {

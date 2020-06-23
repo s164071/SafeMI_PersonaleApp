@@ -18,6 +18,7 @@ data class User(
     val cpr: String,
     val image: Bitmap?,
     val medicines: List<String>,
+    val blodtype: String,
     val donor: String,
     val allergies: List<String>,
     val emergencies: List<String>,
@@ -51,12 +52,12 @@ interface UserInterface {
                                 // Get Post object and use the values to update the UI
                                 download(userId) {
                                     val useruser = User(
-
+                                        blodtype =dataSnapshot.child("Blodtype").getValue(true).toString(),
                                         name = dataSnapshot.child("navn").getValue(true).toString(),
                                         cpr = dataSnapshot.child("persId").getValue(true).toString(),
                                         medicines = dataSnapshot.child("Medicin").value.toString()
                                             .getFirebaseList(),
-                                        donor = dataSnapshot.child("doner").getValue(true).toString(),
+                                        donor = dataSnapshot.child("Donor").getValue(true).toString(),
                                         allergies = dataSnapshot.child("Allergier").value.toString()
                                             .getFirebaseList(),
                                         others = dataSnapshot.child("Andet").value.toString()
@@ -99,7 +100,7 @@ fun upDataRepo(userID: String, onLogin: ((User?) -> Unit)) {
             // Get Post object and use the values to update the UI
             download(userID) {
                 val user = User(
-
+                    blodtype = dataSnapshot.child("Blodtype").getValue(true).toString(),
                     name = dataSnapshot.child("navn").getValue(true).toString(),
                     cpr = dataSnapshot.child("persId").getValue(true).toString(),
                     medicines = dataSnapshot.child("Medicin").value.toString()
