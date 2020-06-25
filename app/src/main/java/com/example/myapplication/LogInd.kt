@@ -3,7 +3,6 @@ package com.example.myapplication
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +22,7 @@ class LogInd : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var activity: MainActivity
     val TAG = "MainActivity"
-    val fragment_nearby = nearby()
+    val fragment_nearby = Nearby()
 
 
 
@@ -81,7 +80,6 @@ class LogInd : Fragment() {
                 return
 
             }else {
-
                 email.error = "Indtast en emailadresse"
                 email.requestFocus()
                 //Log.d(TAG, "emailfelt er tomt:" + email.text.toString().isEmpty())

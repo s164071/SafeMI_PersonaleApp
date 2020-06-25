@@ -95,7 +95,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 
 
-class nearby : Fragment() {
+class Nearby : Fragment() {
 
     private lateinit var activity: MainActivity
     private var observationsHandler: ProximityObserver.Handler? = null

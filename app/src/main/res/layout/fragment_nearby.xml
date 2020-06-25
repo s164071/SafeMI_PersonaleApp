@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:orientation="vertical"
-    tools:context=".nearby">
+    tools:context=".Nearby">
 
     <LinearLayout
         android:id="@+id/Top"

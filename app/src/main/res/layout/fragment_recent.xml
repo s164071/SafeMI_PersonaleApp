@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_recent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="0dp"
-    android:background="#FFFFFF"
+    android:clickable="true"
+    android:clipChildren="false"
     android:gravity="bottom"
     android:orientation="vertical"
-    tools:context=".Recent"
-    android:id="@+id/fragment_recent">
+    tools:context=".Recent">
 
     <LinearLayout
         android:id="@+id/linearLayout7"
@@ -164,6 +165,7 @@
         android:layout_above="@+id/knapper"
         android:layout_below="@+id/Informationer"
         android:layout_weight="0.3"
+        android:background="#FFFFFF"
         android:gravity="center|center_vertical"
         android:orientation="vertical">
 
