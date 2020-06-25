@@ -27,7 +27,7 @@
             android:fontFamily="sans-serif"
             android:text="Borgere i nærheden"
             android:textColor="#4C4A4A"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <ImageButton
             android:id="@+id/logud"
@@ -89,10 +89,9 @@
                 android:layout_width="29dp"
                 android:layout_height="38dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="18dp"
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/navn"
-                app:layout_constraintBottom_toTopOf="@+id/cpr"
                 app:layout_constraintEnd_toStartOf="@+id/patientinfoBox"
                 app:layout_constraintHorizontal_bias="0.529"
                 app:layout_constraintStart_toEndOf="@+id/patientPic"
@@ -100,12 +99,12 @@
 
             <ImageView
                 android:id="@+id/cpr"
-                android:layout_width="27dp"
-                android:layout_height="36dp"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="5dp"
                 android:src="@drawable/cpr"
                 app:layout_constraintBottom_toTopOf="@+id/horisontalline"
                 app:layout_constraintEnd_toStartOf="@+id/patientinfoBox2"
@@ -118,7 +117,7 @@
                 android:id="@+id/patientinfoBox"
                 android:layout_width="215dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="70dp"
+                android:layout_marginStart="72dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="31dp"
                 android:text=""
@@ -132,7 +131,7 @@
                 android:id="@+id/patientinfoBox2"
                 android:layout_width="215dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="70dp"
+                android:layout_marginStart="72dp"
                 android:layout_marginTop="90dp"
                 android:layout_marginEnd="31dp"
                 android:text=""
@@ -157,17 +156,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="179dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="220dp"
                 android:text="Ingen borgere inden for 3 m"
                 android:textSize="25dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.489"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/horisontalline"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/horisontalline" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

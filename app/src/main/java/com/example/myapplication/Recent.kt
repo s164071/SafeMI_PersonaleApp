@@ -13,8 +13,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.myapplication.person.Person
-import kotlinx.android.synthetic.main.fragment_nearby.*
-import kotlinx.android.synthetic.main.fragment_recent.*
 
 class Recent : Fragment() {
     val TAG = "MainActivity"
@@ -60,7 +58,7 @@ class Recent : Fragment() {
                 cprfeldt.text = cpr
 
 
-                    var profilepic: Bitmap = BitmapFactory.decodeByteArray(b, 0, b.size)
+                    var profilepic: Bitmap? = BitmapFactory.decodeByteArray(b, 0, b.size)
                     var billede: ImageView = view.findViewById(R.id.Profile)
                     billede.setImageBitmap(profilepic)
 

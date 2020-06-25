@@ -13,7 +13,6 @@ import java.io.File
 
 
 data class User(
-    //val authentication: FirebaseUser,
     val name: String,
     val cpr: String,
     val image: Bitmap?,

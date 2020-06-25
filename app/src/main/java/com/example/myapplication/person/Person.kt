@@ -20,8 +20,7 @@ import androidx.fragment.app.activityViewModels
 
 class Person : Fragment() {
 
-    private lateinit var activity: MainActivity
-    private val logtag = Person::class.simpleName
+        private val logtag = Person::class.simpleName
     private lateinit var database: DatabaseReference
     private lateinit var mystorage: FirebaseStorage
 

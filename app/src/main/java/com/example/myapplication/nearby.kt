@@ -84,9 +84,6 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 
 
-import kotlinx.android.synthetic.main.activity_beacon_oversigt.*
-
-
 import kotlinx.android.synthetic.main.fragment_nearby.*
 
 
@@ -409,7 +406,7 @@ class nearby : Fragment() {
 
         Log.d(logTags, "file $file")
         ref.getFile(file).addOnCompleteListener() { task ->
-            if (task.isSuccessful) {
+            if (task.isSuccessful && file!=null) {
 
                 bitmap = BitmapFactory.decodeFile(file.absolutePath)
 

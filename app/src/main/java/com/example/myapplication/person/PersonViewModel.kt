@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 import com.example.myapplication.DataModel.PersonInformaitoner
-import com.google.firebase.auth.FirebaseUser
+
 
 enum class  PersonDataType {
     NAME,
