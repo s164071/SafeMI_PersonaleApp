@@ -39,36 +39,35 @@ class PersonAdaptor(): RecyclerView.Adapter<PersonAdaptor.ViewHolder>() {
         when(element.type){
             PersonDataType.NAME -> {
                 holder.title.text = "Navn"
-
-
+                holder.image.setImageResource(R.drawable.navn_ind_24px)
             }
             PersonDataType.CPR -> {
                 holder.title.text = "CPR"
-
+                holder.image.setImageResource(R.drawable.cpr_24px)
             }
             PersonDataType.BLOD -> {
                 holder.title.text = "Blodtype"
-
+                holder.image.setImageResource(R.drawable.blood_24px)
             }
             PersonDataType.MEDICIN -> {
                 holder.title.text = "Medicin"
-
+                holder.image.setImageResource(R.drawable.medicin_24px)
             }
             PersonDataType.ALLERGIE -> {
                 holder.title.text = "Allergi"
-
+                holder.image.setImageResource(R.drawable.allergi_24px)
             }
             PersonDataType.DONER -> {
                 holder.title.text = "Doner"
-
+                holder.image.setImageResource(R.drawable.doner_24px)
             }
             PersonDataType.EMERGENCY -> {
                 holder.title.text = "Nød kontakt information"
-
+                holder.image.setImageResource(R.drawable.contact_24px)
             }
             PersonDataType.OTHER -> {
                 holder.title.text = "Sygdomstilstand og andet"
-
+                holder.image.setImageResource(R.drawable.medical_condition_and_other_24px_outlined)
             }
         }
 
