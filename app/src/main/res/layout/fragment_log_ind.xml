@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/frontpage"
     android:focusable="true"
+    android:id="@+id/loginFragment"
     android:focusableInTouchMode="true"
     android:scrollbarThumbHorizontal="@color/temafarve"
     tools:context=".LogInd">
@@ -22,7 +23,7 @@
             app:srcCompat="@drawable/safe_mi" />
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
+            android:id="@+id/LogIndOplysninger"
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:gravity="center"
@@ -75,7 +76,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+            app:layout_constraintTop_toBottomOf="@+id/LogIndOplysninger">
 
                 <Button
                     android:id="@+id/LogIndKnap"
